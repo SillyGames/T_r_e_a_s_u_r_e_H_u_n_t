@@ -1,0 +1,16 @@
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\Qualcomm.Vuforia.UnityExtensions.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\SmartFox2X.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEditor.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEngine.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEngine.xml
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\UnityEditor.xml
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_bin\Debug\Qualcomm.Vuforia.UnityExtensions.xml
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_obj\Debug\TreasureHunt.CSharp.csprojResolveAssemblyReference.cache
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_obj\Debug\Assembly-CSharp.dll
+I:\Projects\TreasureHunt\UnityClient\TreasureHunt\Temp\UnityVS_obj\Debug\Assembly-CSharp.pdb
