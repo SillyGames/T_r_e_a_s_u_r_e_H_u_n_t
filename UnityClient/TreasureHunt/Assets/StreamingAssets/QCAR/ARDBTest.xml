@@ -3,4 +3,7 @@
   <Tracking>
     <ImageTarget name="coloredshapes" size="1.000000 1.000000" />
   </Tracking>
+  <Tracking>
+    <ImageTarget name="coloredshapesx" size="1.000000 1.000000" />
+  </Tracking>
 </QCARConfig>
