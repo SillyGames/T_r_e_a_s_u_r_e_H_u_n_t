@@ -44,6 +44,22 @@
             <resampledTextureWidth>640</resampledTextureWidth>
         </osx>
     </webcam>
+	<webcam deviceName="Integrated Webcam">
+        <windows>
+            <!-- size of the web cam texture requested from Unity -->
+            <requestedTextureWidth>640</requestedTextureWidth>
+            <requestedTextureHeight>480</requestedTextureHeight>
+            <!-- size of the texture Unity's web cam texture will be rescaled to -->
+            <resampledTextureWidth>640</resampledTextureWidth>
+        </windows>
+        <osx>
+            <!-- size of the web cam texture requested from Unity -->
+            <requestedTextureWidth>640</requestedTextureWidth>
+            <requestedTextureHeight>480</requestedTextureHeight>
+            <!-- size of the texture Unity's web cam texture will be rescaled to -->
+            <resampledTextureWidth>640</resampledTextureWidth>
+        </osx>
+    </webcam>
     <webcam deviceName="Integrated Camera">
         <windows>
             <!-- size of the web cam texture requested from Unity -->
@@ -222,22 +238,6 @@
         </osx>
     </webcam>
     <webcam deviceName="FaceTime HD Camera (Built-in)">
-        <windows>
-            <!-- size of the web cam texture requested from Unity -->
-            <requestedTextureWidth>640</requestedTextureWidth>
-            <requestedTextureHeight>480</requestedTextureHeight>
-            <!-- size of the texture Unity's web cam texture will be rescaled to -->
-            <resampledTextureWidth>640</resampledTextureWidth>
-        </windows>
-        <osx>
-            <!-- size of the web cam texture requested from Unity -->
-            <requestedTextureWidth>1280</requestedTextureWidth>
-            <requestedTextureHeight>720</requestedTextureHeight>
-            <!-- size of the texture Unity's web cam texture will be rescaled to -->
-            <resampledTextureWidth>640</resampledTextureWidth>
-        </osx>
-    </webcam>
-	<webcam deviceName="USB2.0 PC CAMERA">
         <windows>
             <!-- size of the web cam texture requested from Unity -->
             <requestedTextureWidth>640</requestedTextureWidth>

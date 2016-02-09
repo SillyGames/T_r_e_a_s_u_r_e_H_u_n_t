@@ -40,6 +40,7 @@ namespace Vuforia
                 AddExternalDatasetSearchDir(externalStorageDirectory + "/Android/data/" + packageName + "/files/QCAR/");
             }
 #endif //UNITY_ANDROID
+           
         }
     }
 }

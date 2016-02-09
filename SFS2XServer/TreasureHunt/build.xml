@@ -10,7 +10,7 @@
 <project name="TreasureHunt" default="default" basedir=".">
     <description>Builds, tests, and runs the project TreasureHunt.</description>
     <import file="nbproject/build-impl.xml"/>
-	<target name="-post-compile">   
+	<target name="-post-jar">   
     <exec dir="." executable="cmd">
           <arg line="/c CopyJarsToSFS.bat"/>
     </exec>
