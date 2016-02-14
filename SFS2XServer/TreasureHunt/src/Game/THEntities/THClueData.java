@@ -10,7 +10,10 @@ package Game.THEntities;
  *
  * @author Janhavi
  */
-public class THClueData extends THElement
+public class THClueData
 {
-    
+    public String m_strTitle = "";
+    public String m_strText = "";
+    public String m_strImage = "";
+    public String m_strTracker = "";
 }

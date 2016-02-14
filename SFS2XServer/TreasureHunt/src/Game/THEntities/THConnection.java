@@ -24,8 +24,7 @@ public class THConnection extends THElement
     public void SetEvent(THEvent a_event)
     {
         m_event = a_event;
-    }
-    
+    }    
     
     @JsonProperty
     private THAction m_action = null;
@@ -33,6 +32,7 @@ public class THConnection extends THElement
     {
         return m_action;
     }
+    
     public void SetAction(THAction a_action)
     {
         m_action = a_action;

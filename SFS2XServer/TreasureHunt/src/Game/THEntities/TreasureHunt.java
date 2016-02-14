@@ -3,6 +3,8 @@ package Game.THEntities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.EnumMap;
+import java.util.Hashtable;
 import java.util.List;
 
 /*
@@ -24,6 +26,23 @@ public class TreasureHunt extends THTeam
     {
         return m_lstTeams.size();
     }
+    public THTeam AddTeam()
+    {
+        THTeam team = new THTeam();
+        m_lstTeams.add(team);
+        return team;
+    }
+    public THTeam GetTeamByID(String a_strTeamID)
+    {
+        for (THTeam team : m_lstTeams)
+        {
+            if(team.GetID().equals(a_strTeamID))
+            {
+                return team;
+            }
+        }
+        return null;
+    }
         
     @JsonProperty
     private List<THPlayer> m_lstPlayers = new ArrayList<THPlayer>();    
@@ -31,10 +50,6 @@ public class TreasureHunt extends THTeam
     {
         return m_lstPlayers.subList(0, m_lstPlayers.size());
     }
-    
-    @JsonProperty
-    private List<THPlayer> m_lstRequesters = new ArrayList<THPlayer>();
-
     public List<THPlayer> GetTeamPlayers(String a_strTeamID, boolean a_bIncludeGlobal)
     {
         List<THPlayer> lstTeamPlayers = new ArrayList<THPlayer>();
@@ -50,22 +65,57 @@ public class TreasureHunt extends THTeam
     }
     
     @JsonProperty
+    private List<THPlayer> m_lstRequesters = new ArrayList<THPlayer>();    
+    
+    @JsonProperty
     private List<THClue> m_lstClues = new ArrayList<THClue>();
     public List<THClue> GetAllClues()
     {
         return m_lstClues.subList(0, m_lstClues.size());
     }
-
-    public THTeam GetTeamByID(String a_strTeamID)
+    public THClue AddClue()
     {
-        for (THTeam team : m_lstTeams)
+        THClue clue = new THClue();
+        m_lstClues.add(clue);
+        return clue;
+    }
+
+    @JsonProperty
+    private List<THConnection> m_lstConnections = new ArrayList<THConnection>();
+    public List<THConnection> GetConnections()
+    {
+        return m_lstConnections.subList(0, m_lstConnections.size());
+    }
+    
+//<editor-fold defaultstate="collapsed" desc="Run time code">
+    //connections that were used up during the game
+    private List<THConnection> m_lstUsedConnections = new ArrayList<THConnection>();
+    
+    private EnumMap<THEvent.EventType,List<THConnection>> m_eventDictionary = new EnumMap<THEvent.EventType, List<THConnection>>(THEvent.EventType.class);
+    
+    private  void PrepareToStart()
+    {
+        for(THEvent.EventType eventType : THEvent.EventType.values())
         {
-            if(team.GetID().equals(a_strTeamID))
+            if(eventType != THEvent.EventType.None)
             {
-                return team;
+                m_eventDictionary.put(eventType, new ArrayList<THConnection>());
             }
         }
-        return null;
+        
+        for (THConnection connection : m_lstConnections)
+        {
+            THEvent.EventType eventType = connection.GetEvent().GetType();
+            if(eventType != THEvent.EventType.None)
+            {
+                m_eventDictionary.get(eventType).add(connection);
+            }
+            else
+            {
+                THTrace("Connection with eveent type 'none': " + connection);
+            }
+        }
     }
+//</editor-fold>
     
 }

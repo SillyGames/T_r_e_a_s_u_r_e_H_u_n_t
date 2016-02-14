@@ -7,6 +7,8 @@
 package Game.THEntities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,4 +37,19 @@ public class THClue extends  THElement
     {
         return GetParentHunt().GetTeamByID(GetTeamID());
     }
+    
+    @JsonProperty
+    private THClueData m_data = new THClueData();
+    public String GetTitle(){return m_data.m_strTitle;}
+    public String GetText(){return m_data.m_strText;}
+    public String GetImageID(){return m_data.m_strImage;}
+    public String GetTrackeID(){return m_data.m_strTracker;}
+    public void SetTitle(String a_strValue){m_data.m_strTitle = a_strValue;}
+    public void SetText(String a_strValue){m_data.m_strText = a_strValue;}
+    public void SetImageID(String a_strValue){m_data.m_strImage = a_strValue;}
+    public void SetTrackerID(String a_strValue){m_data.m_strTracker = a_strValue;}
+    
+    @JsonProperty
+    private List<String> m_lstSubClueIDs = new ArrayList<String>();
+
 }

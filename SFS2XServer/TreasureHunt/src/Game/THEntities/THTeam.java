@@ -6,8 +6,6 @@
 
 package Game.THEntities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,8 +38,5 @@ public class THTeam extends THElement
     {
         return GetTeamPlayers(false);
     }
-    
-    @JsonProperty
-    private List<THConnection> m_lstConnections = new ArrayList<THConnection>();
     
 }

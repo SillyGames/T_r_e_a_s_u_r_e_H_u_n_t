@@ -46,4 +46,9 @@ public class THElement
         obj.putUtfString(THConstants.TH_ELEMENT_ID, m_strID );
         return obj;        
     }
+    
+    public static void THTrace(Object a_data)
+    {
+        System.out.println("THTrace: " + a_data);
+    }
 }
