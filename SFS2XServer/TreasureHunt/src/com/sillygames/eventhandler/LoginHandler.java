@@ -60,7 +60,7 @@ public class LoginHandler extends BaseServerEventHandler {
             }
             if(!userName.equals(row.getSFSObject(0).getUtfString("username")))
             {
-                TreasureHuntExtensions.getInstance().addToTrance("Login successful "+row.getSFSObject(0).getUtfString("username"));
+                TreasureHuntExtensions.getInstance().addToTrance("Login failed: "+row.getSFSObject(0).getUtfString("username"));
                 
 
                 //SFSErrorCodes.setErrorMessage(13, "Le Groupe demandé n'est pas disponible - Salle: {0}; Groupe: {1}");

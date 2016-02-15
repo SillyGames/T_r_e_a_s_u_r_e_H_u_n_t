@@ -10,13 +10,13 @@ import Game.THEntities.THClue;
 import Game.THEntities.THElement;
 import Game.THEntities.THTeam;
 import Game.THEntities.TreasureHunt;
+import Game.THGame;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sillygames.eventhandler.LoginHandler;
 import com.sillygames.eventhandler.UserRegistrationHandler;
 import com.sillygames.eventhandler.ZoneJoinHandler;
-import com.sillygames.utils.TreasureHuntEvent;
 import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import java.io.IOException;
@@ -31,9 +31,11 @@ public class TreasureHuntExtensions extends  SFSExtension
 {
     private static TreasureHuntExtensions instance = null;
     
-    public static TreasureHuntExtensions getInstance() {
+    public static TreasureHuntExtensions getInstance() 
+    {
         return instance;
     }
+    
     @Override
     public void init() 
     {
@@ -42,10 +44,11 @@ public class TreasureHuntExtensions extends  SFSExtension
         instance.addEventHandler(SFSEventType.USER_JOIN_ZONE, ZoneJoinHandler.class); 
         instance.addEventHandler(SFSEventType.USER_LOGIN, LoginHandler.class);
         instance.addRequestHandler(TreasureHuntEvent.REGISTER_USER, UserRegistrationHandler.class);
-        
+        THGame.CreateInstance();
         TestJSON();
   
     }
+    
     public void addToTrance(String a_traceStr)
     {
         trace(a_traceStr);

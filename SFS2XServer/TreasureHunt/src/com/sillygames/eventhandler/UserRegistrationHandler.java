@@ -5,8 +5,7 @@
  */
 package com.sillygames.eventhandler;
 
-import com.sillygames.utils.TreasureHuntEvent;
-import com.smartfoxserver.v2.db.IDBManager;
+import Game.Extensions.TreasureHuntEvent;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
