@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.EnumMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 /*
@@ -56,16 +57,44 @@ public class TreasureHunt extends THTeam
         for (THPlayer player : GetAllPlayers())
         {
             String strTeamID = player.GetTeamID();
-            if(strTeamID.equals(a_strTeamID) || (a_bIncludeGlobal && strTeamID == ""))
+            if(strTeamID.equals(a_strTeamID) || (a_bIncludeGlobal && "".equals(strTeamID)))
             {
                 lstTeamPlayers.add(player);
             }
         }
         return lstTeamPlayers;
     }
+    public THPlayer GetPlayerByID(String a_playerID)
+    {
+        return GetPlayerByID(m_lstPlayers, a_playerID);
+    }
     
     @JsonProperty
     private List<THPlayer> m_lstRequesters = new ArrayList<THPlayer>();    
+    public THPlayer GetRequesterByID(String a_playerID)
+    {
+        return GetPlayerByID(m_lstRequesters, a_playerID);
+    }
+
+    public THPlayer AddReQuester(String a_playerID, String a_playerName)
+    {
+        THPlayer player = new THPlayer();
+        player.SetID(a_playerID);
+        player.setName(a_playerName);
+        return player;
+    }
+    
+    private THPlayer GetPlayerByID(List<THPlayer> a_lstPlayers, String a_playerID)
+    {
+        for (THPlayer player : a_lstPlayers)
+        {
+            if(player.GetID().equals(a_playerID))
+            {
+                return player;
+            }
+        }
+        return null;
+    }
     
     @JsonProperty
     private List<THClue> m_lstClues = new ArrayList<THClue>();

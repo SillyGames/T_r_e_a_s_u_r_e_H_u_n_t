@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sillygames.eventhandler;
 
+package com.sillygames.eventhandler;
 
 import Game.Extensions.TreasureHunZonetExtension;
 import com.smartfoxserver.v2.core.ISFSEvent;
@@ -13,13 +13,16 @@ import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
 
 /**
  *
- * @author Ajay Singh
+ * @author Janhavi
  */
-public class ZoneJoinHandler extends BaseServerEventHandler
+public class ServerReadyHandler extends BaseServerEventHandler
 {
-    @Override
-    public void handleServerEvent(ISFSEvent isfse) throws SFSException {
-        TreasureHunZonetExtension.getInstance().addToTrace("Zone Handler user join To Join!!!!!! "  );
-    }
 
+    @Override
+    public void handleServerEvent(ISFSEvent isfse) throws SFSException
+    {
+        trace("^^^^^^^^^^^^^^^^^^^^server Ready^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        TreasureHunZonetExtension.getInstance().CreateTreasureHuntRoom();
+    }
+    
 }

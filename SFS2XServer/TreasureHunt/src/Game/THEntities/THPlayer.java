@@ -25,4 +25,13 @@ public class THPlayer extends THElement
         m_strTeamID = a_strTeamID;
     }
     
+    private boolean m_bIsOnline = false;
+    public boolean GetIsOnline()
+    {
+        return m_bIsOnline;
+    }
+    public void SetIsOnline(boolean a_bStatus)
+    {
+        m_bIsOnline = a_bStatus;
+    }
 }
