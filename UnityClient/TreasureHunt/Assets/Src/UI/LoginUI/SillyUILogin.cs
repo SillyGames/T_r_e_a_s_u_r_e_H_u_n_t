@@ -34,7 +34,8 @@ public class SillyUILogin : MonoBehaviour {
     {
         //
         NetworkManager.Instance.addEventListener(NetworkManager.eGameEvents.UserLogin.ToString(),OnUserLogin);
-        NetworkManager.Instance.RequestToLogin(m_userName.text.ToLower(),SystemInfo.deviceUniqueIdentifier);
+        NetworkManager.Instance.RequestToLogin();
+        //NetworkManager.Instance.RequestToLogin(m_userName.text.ToLower(),SystemInfo.deviceUniqueIdentifier);
     }
 
     private void OnUserLogin(object sender, GameEventArgs args)

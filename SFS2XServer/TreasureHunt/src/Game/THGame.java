@@ -6,9 +6,11 @@
 
 package Game;
 
-import Game.Extensions.TreasureHunZonetExtension;
+import Game.Extensions.TreasureHuntRoomExtension;
 import Game.THEntities.THPlayer;
 import Game.THEntities.TreasureHunt;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,41 +18,31 @@ import Game.THEntities.TreasureHunt;
  */
 public class THGame
 {
-    private static THGame s_instance = null;
-    public static THGame GetInstance()
+    public void Trace(Object a_object)        
     {
-        return s_instance;
+        m_SFSExtension.trace(a_object);
     }
-    
-    public static void CreateInstance()
-    {
-        if(s_instance == null)
-        {
-            Trace("---------------Creating a new instance of THGame---------------");
-            s_instance = new THGame();
-            s_instance.Init();
-        }
-        else
-        {
-            Trace("WWWWW: THGame:CreateInstance: instance is already created...");
-        }
-    }
-    
-    public static void Trace(Object a_object)        
-    {
-        g_extensionInstance.trace(a_object);
-    }
-    public static void TraceW(Object a_object)        
+    public void TraceW(Object a_object)        
     {
         Trace("WWWWWWWW: " + a_object);
     }
     
-    public static void TraceE(Object a_object)        
+    public void TraceE(Object a_object)        
     {
         Trace("EEEEEEEE: " + a_object);
     }
     
-    public static TreasureHunZonetExtension g_extensionInstance = null;
+    private TreasureHuntRoomExtension m_SFSExtension = null;
+    
+    public void setName(String a_name)
+    {
+        m_treasureHunt.setName(a_name);
+    }
+    
+    public String getName()
+    {
+        return m_treasureHunt.getName();
+    }    
     
     //<editor-fold defaultstate="collapsed" desc="State Handling">
     private enum State
@@ -71,16 +63,22 @@ public class THGame
     
 //</editor-fold>
     
+    private static List<THGame> s_runningGames = new ArrayList<THGame>();
+    
     TreasureHunt m_treasureHunt = new TreasureHunt();
-    public void Init()
+    public void Init(TreasureHuntRoomExtension a_roomExtension)
     {
         Trace("Initing THGame");
+        m_SFSExtension = a_roomExtension;
         //its the default state anyway, but setting it here just for the sake of logic
-        SetState(State.Preparation);        
-        runGameLoop();
-        //load treasur hunt from json saved
-        
-        
+        SetState(State.Preparation);
+        //load treasur hunt from json saved   
+        s_runningGames.add(this);
+    }
+    
+    public void Destroy()
+    {
+        s_runningGames.remove(this);
     }
     
     void UpdateStatePreparation(double deltaTime)
@@ -161,81 +159,9 @@ public class THGame
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Handling Game Loop">
-    private boolean m_bRunning = false;
-
-    private void SetRunning(boolean a_bRunning)
+    public void updateGame(double deltaTime)
     {
-        m_bRunning = a_bRunning;
-    }
-    
-    private int fps = 60;
-    //private int frameCount = 0;
-    
-    ///this game loop code is taken from
-    //http://www.java-gaming.org/index.php/topic,24220.0
-    ///it is modified according to our needs
-    public void runGameLoop()
-    {
-        Thread loop = new Thread()
-        {
-            
-            @Override
-            public void run()
-            {
-                gameLoop();
-            }
-        };
-        SetRunning(true);
-        Trace("about to start a thread@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        loop.start();
-    }
-    
-    //Only run this in another Thread!
-    private void gameLoop()
-    {
-        //This value would probably be stored elsewhere.
-        final double GAME_HERTZ = 1.0;//30.0;
-        //Calculate how many ns each frame should take for our target game hertz.
-        final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
-        //At the very most we will update the game this many times before a new render.
-        
-        //We will need the last update time.
-        double lastUpdateTime = System.nanoTime();
-        //Store the last time we rendered.
-        double lastRenderTime = System.nanoTime();
-        
-      
-        
-        //Simple way of finding FPS.
-        int lastSecondTime = (int) (lastUpdateTime / 1000000000);
-        
-        while (m_bRunning)
-        {
-            double now = System.nanoTime();
-            
-            double currentFrame = now - lastUpdateTime;
-            updateGame(currentFrame);
-            lastUpdateTime = now;
-            
-            //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-            while ( (now - lastUpdateTime) < TIME_BETWEEN_UPDATES)
-            {
-                Thread.yield();
-                
-                //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
-                try {Thread.sleep(1);} catch(Exception e) {}
-                
-                now = System.nanoTime();
-            }
-        }
-    }
-    
-    private void updateGame(double deltaTime)
-    {
-        State state = GetState();
+        THGame.State state = GetState();
         switch(state)
         {
         case Preparation:
@@ -258,5 +184,4 @@ public class THGame
         }
         //Trace("UPdating Game Loop: " + deltaTime);
     }
-//</editor-fold>
 }
