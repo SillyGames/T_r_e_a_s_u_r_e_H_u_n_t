@@ -6,6 +6,8 @@
 
 package Game.Extensions;
 
+import Game.requestHandlers.HuntRequestsHandler;
+import Game.Keys;
 import Game.THGame;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 
@@ -19,6 +21,8 @@ public class TreasureHuntRoomExtension extends SFSExtension
     @Override
     public void init()
     {
+        addRequestHandler(Keys.HUNT_REQUESTS, HuntRequestsHandler.class);
+        
         trace("************************* room Extension Inited********************");
         //loading from json, 
         game = new THGame();
@@ -26,6 +30,8 @@ public class TreasureHuntRoomExtension extends SFSExtension
         game.setName(getName());
         runGameLoop();
     }
+    
+    
     
     @Override
     public void destroy()

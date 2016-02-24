@@ -4,24 +4,20 @@
  * and open the template in the editor.
  */
 
-package Game.Extensions;
+package Game.requestHandlers;
 
+import com.smartfoxserver.v2.annotations.MultiHandler;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
+import com.smartfoxserver.v2.extensions.SFSExtension;
 
 /**
  *
  * @author Janhavi
  */
-public class GameEventHandler extends BaseClientRequestHandler
+@MultiHandler
+public class HuntRequestsHandler extends baseRequestHandler
 {
-
-    @Override
-    public void handleClientRequest(User user, ISFSObject isfso)
-    {
-        trace("handled Game Event, parent type: " + getParentExtension().getType() + ", isfso: " + isfso.getDump());
         
-    }
-    
 }
