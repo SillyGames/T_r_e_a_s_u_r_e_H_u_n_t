@@ -22,7 +22,6 @@ import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
-import com.smartfoxserver.v2.mmo.CreateMMORoomSettings;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,11 +30,11 @@ import java.util.logging.Logger;
  * @author Janhavi
  */
 
-public class TreasureHunZonetExtension extends  SFSExtension
+public class TreasureHuntZoneExtension extends  SFSExtension
 {
-    private static TreasureHunZonetExtension instance = null;
+    private static TreasureHuntZoneExtension instance = null;
     
-    public static TreasureHunZonetExtension getInstance() 
+    public static TreasureHuntZoneExtension getInstance() 
     {
         return instance;
     }
@@ -81,7 +80,7 @@ public class TreasureHunZonetExtension extends  SFSExtension
         }
         catch (IOException ex)
         {
-            Logger.getLogger(TreasureHunZonetExtension.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
    
@@ -112,7 +111,7 @@ public class TreasureHunZonetExtension extends  SFSExtension
         }
         catch (SFSCreateRoomException ex)
         {
-            Logger.getLogger(TreasureHunZonetExtension.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

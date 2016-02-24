@@ -6,7 +6,7 @@
 
 package com.sillygames.eventhandler;
 
-import Game.Extensions.TreasureHunZonetExtension;
+import Game.Extensions.TreasureHuntZoneExtension;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.exceptions.SFSException;
 import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
@@ -22,7 +22,7 @@ public class ServerReadyHandler extends BaseServerEventHandler
     public void handleServerEvent(ISFSEvent isfse) throws SFSException
     {
         trace("^^^^^^^^^^^^^^^^^^^^server Ready^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        TreasureHunZonetExtension.getInstance().CreateTreasureHuntRoom();
+        TreasureHuntZoneExtension.getInstance().CreateTreasureHuntRoom();
     }
     
 }

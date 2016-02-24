@@ -5,7 +5,7 @@
  */
 package com.sillygames.eventhandler;
 
-import Game.Extensions.TreasureHunZonetExtension;
+import Game.Extensions.TreasureHuntZoneExtension;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.SFSEventParam;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -33,14 +33,14 @@ public class LoginHandler extends BaseServerEventHandler {
     @Override
     public void handleServerEvent(ISFSEvent event) throws SFSException 
     {
-        TreasureHunZonetExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! "  ); 
+        TreasureHuntZoneExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! "  ); 
         String userName = (String) event.getParameter(SFSEventParam.LOGIN_NAME);
         String password = (String) event.getParameter(SFSEventParam.LOGIN_PASSWORD);
         ISFSObject l_sfsLoginData = (SFSObject)event.getParameter(SFSEventParam.LOGIN_IN_DATA);
          String deviceid = l_sfsLoginData.getUtfString("deviceid");
-        TreasureHunZonetExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! Device ID  " +l_sfsLoginData.getUtfString("deviceid")); 
-        TreasureHunZonetExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! User Name  " +userName ); 
-        TreasureHunZonetExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! Password " +deviceid ); 
+        TreasureHuntZoneExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! Device ID  " +l_sfsLoginData.getUtfString("deviceid")); 
+        TreasureHuntZoneExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! User Name  " +userName ); 
+        TreasureHuntZoneExtension.getInstance().addToTrace("LoginHandler user User Request For Login !!!!!! Password " +deviceid ); 
         //ISession session = (ISession)event.getParameter(SFSEventParam.SESSION);
          Connection conn = null;
         try {
@@ -60,7 +60,7 @@ public class LoginHandler extends BaseServerEventHandler {
             }
             if(!userName.equals(row.getSFSObject(0).getUtfString("username")))
             {
-                TreasureHunZonetExtension.getInstance().addToTrace("Login failed: "+row.getSFSObject(0).getUtfString("username"));
+                TreasureHuntZoneExtension.getInstance().addToTrace("Login failed: "+row.getSFSObject(0).getUtfString("username"));
                 
 
                 //SFSErrorCodes.setErrorMessage(13, "Le Groupe demandé n'est pas disponible - Salle: {0}; Groupe: {1}");
@@ -70,7 +70,7 @@ public class LoginHandler extends BaseServerEventHandler {
             }
             
             conn.close();     
-            TreasureHunZonetExtension.getInstance().addToTrace("Login successful, joining room!" + row.getDump());
+            TreasureHuntZoneExtension.getInstance().addToTrace("Login successful, joining room!" + row.getDump());
         } 
         catch (SQLException e)
         {

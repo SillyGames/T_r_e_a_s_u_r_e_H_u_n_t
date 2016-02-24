@@ -6,7 +6,7 @@
 
 package Game;
 
-import Game.Extensions.TreasureHunZonetExtension;
+import Game.Extensions.TreasureHuntZoneExtension;
 import Game.THEntities.THPlayer;
 import Game.THEntities.TreasureHunt;
 
@@ -50,7 +50,7 @@ public class THGame
         Trace("EEEEEEEE: " + a_object);
     }
     
-    public static TreasureHunZonetExtension g_extensionInstance = null;
+    public static TreasureHuntZoneExtension g_extensionInstance = null;
     
     //<editor-fold defaultstate="collapsed" desc="State Handling">
     private enum State
