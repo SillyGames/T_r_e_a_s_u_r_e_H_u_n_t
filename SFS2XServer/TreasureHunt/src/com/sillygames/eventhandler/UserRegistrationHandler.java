@@ -5,7 +5,6 @@
  */
 package com.sillygames.eventhandler;
 
-import Game.TreasureHuntEvent;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -47,7 +46,7 @@ public class UserRegistrationHandler extends BaseClientRequestHandler
 
         ISFSObject success = new SFSObject();
         success.putUtfString("success", "User successfully registered");
-        send(TreasureHuntEvent.REGISTER_USER, success, user); //To change body of generated methods, choose Tools | Templates.
+        //send(TreasureHuntEvent.REGISTER_USER, success, user); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

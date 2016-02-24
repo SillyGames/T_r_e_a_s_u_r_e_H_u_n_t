@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sillygames.eventhandler;
+package Game;
 
 import Game.Extensions.TreasureHunZonetExtension;
 import Game.Keys;
@@ -53,6 +53,8 @@ public class THServerEventHandler extends BaseServerEventHandler
         case SERVER_READY:
             handleServerReadyEvent(event);
             break;
+        case ROOM_ADDED:
+            handleRoomAddedEvent(event);
         default:
             throw new AssertionError();
         }
@@ -152,5 +154,10 @@ public class THServerEventHandler extends BaseServerEventHandler
     {
         trace("^^^^^^^^^^^^^^^^^^^^server Ready^^^^^^^^^^^^^^^^^^^^^^^^^^");
         TreasureHunZonetExtension.getInstance().setIsReady(true);
+    }
+
+    private void handleRoomAddedEvent(ISFSEvent event)
+    {
+        
     }
 }
