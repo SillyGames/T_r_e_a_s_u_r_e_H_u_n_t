@@ -24,6 +24,7 @@ public interface ISFSDispatcher
      */
     void SendPlayerSync(THPlayer a_targetPlayer, THPlayer ... a_players);
     
+    
     /**
      * same as SendPlayerSync, but its a requester list, only sent to HuntMaster
      * @param a_targetPlayer : player who the data will be sent to

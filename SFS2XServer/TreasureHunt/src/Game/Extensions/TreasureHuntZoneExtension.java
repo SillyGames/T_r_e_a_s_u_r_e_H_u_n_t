@@ -10,13 +10,11 @@ import Game.THEntities.THClue;
 import Game.THEntities.THElement;
 import Game.THEntities.THTeam;
 import Game.THEntities.TreasureHunt;
-import Game.THGame;
+import Game.TreasureHuntEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.sillygames.eventhandler.LoginHandler;
-import com.sillygames.eventhandler.ServerReadyHandler;
+import com.sillygames.eventhandler.THServerEventHandler;
 import com.sillygames.eventhandler.UserRegistrationHandler;
-import com.sillygames.eventhandler.ZoneJoinHandler;
 import com.smartfoxserver.v2.api.CreateRoomSettings;
 import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.Room;
@@ -29,37 +27,42 @@ import java.util.logging.Logger;
  *
  * @author Janhavi
  */
-
-public class TreasureHuntZoneExtension extends  SFSExtension
+public class TreasureHunZonetExtension extends  SFSExtension
 {
-    private static TreasureHuntZoneExtension instance = null;
+    //<editor-fold defaultstate="collapsed" desc="Static Members">
+    private static TreasureHunZonetExtension instance = null;
     
-    public static TreasureHuntZoneExtension getInstance() 
+    public static TreasureHunZonetExtension getInstance()
     {
         return instance;
     }
+//</editor-fold>
+    
     
     @Override
     public void init() 
     {
         instance = this;
-        addToTrace("wallah... in tza login...!!!!----------------------------------------------");
-        instance.addEventHandler(SFSEventType.USER_JOIN_ZONE, ZoneJoinHandler.class); 
-        instance.addEventHandler(SFSEventType.USER_LOGIN, LoginHandler.class);
-        instance.addEventHandler(SFSEventType.SERVER_READY, ServerReadyHandler.class);
+        trace("----------------------- Initing Zone -----------------------");
+        instance.addEventHandler(SFSEventType.USER_JOIN_ZONE, THServerEventHandler.class); 
+        instance.addEventHandler(SFSEventType.USER_LOGIN, THServerEventHandler.class);
+        instance.addEventHandler(SFSEventType.SERVER_READY, THServerEventHandler.class);
         instance.addRequestHandler(TreasureHuntEvent.REGISTER_USER, UserRegistrationHandler.class);
-        THGame.g_extensionInstance = this;
-        THGame.CreateInstance();
-        TestJSON();
-        trace("Creating a room Extension......");
-        //CreateTreasureHuntRoom();
-    }
-    
-    public void addToTrace(String a_traceStr) 
-    {
-        trace(a_traceStr);
+        instance.addRequestHandler(TreasureHuntEvent.CREATE_HUNT, GameEventHandler.class);
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Property IsReady">
+    private boolean m_bIsReady;
+    public boolean getIsREady()
+    {
+        return m_bIsReady;
+    }
+    public void setIsReady(boolean a_bIsReady)
+    {
+        m_bIsReady = a_bIsReady;
+    }
+//</editor-fold>
+    
     void TestJSON()
     {
         ObjectMapper  mapper =  new ObjectMapper();
@@ -80,7 +83,7 @@ public class TreasureHuntZoneExtension extends  SFSExtension
         }
         catch (IOException ex)
         {
-            Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TreasureHunZonetExtension.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
    
@@ -111,7 +114,7 @@ public class TreasureHuntZoneExtension extends  SFSExtension
         }
         catch (SFSCreateRoomException ex)
         {
-            Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TreasureHunZonetExtension.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

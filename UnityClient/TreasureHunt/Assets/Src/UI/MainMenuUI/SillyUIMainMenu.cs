@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using Sfs2X.Requests;
+using Sfs2X.Entities.Data;
 
 public class SillyUIMainMenu : MonoBehaviour
 {
@@ -47,7 +49,8 @@ public class SillyUIMainMenu : MonoBehaviour
 
     private void OnClickCreateBtn()
     {
-        
+        Debug.Log("______________sending custom request 'game'");
+        NetworkManager.Instance.SenCustomRequest();
     }
 
     // Update is called once per frame

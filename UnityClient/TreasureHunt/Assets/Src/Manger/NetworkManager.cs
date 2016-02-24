@@ -8,6 +8,7 @@ using Sfs2X.Core;
 using Sfs2X.Entities;
 using System;
 using Sfs2X.Entities.Data;
+using Sfs2X.Requests;
 
 public class NetworkManager : MonoBehaviour,IEventDispatcher
 {
@@ -164,12 +165,12 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
 
     private void OnLoginError(BaseEvent evt)
     {
-     string error = (string)evt.Params["errorMessage"];
-      if(error == INVALID_USER_NAME)
+        string error = (string)evt.Params["errorMessage"];
+        if(error == INVALID_USER_NAME)
         {
             Debug.Log("Try Again ....");
         }
-      else if(error == USER_NOT_EXITS)
+        else if(error == USER_NOT_EXITS)
         {
             Debug.Log("User Not Regi ");
         }
@@ -179,12 +180,21 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
     {
         SFSErrorCodes.SetErrorMessage(2, INVALID_USER_NAME);
         SFSErrorCodes.SetErrorMessage(3, USER_NOT_EXITS);
+        SFSErrorCodes.SetErrorMessage(4, USER_NOT_EXITS);
         ISFSObject l_temp = new SFSObject();
         l_temp.PutUtfString("deviceid", a_deviceID);
         sfs.Send(new Sfs2X.Requests.LoginRequest(a_userName, "", m_zoneName, l_temp));
     }
 
-    
+    public void RequestToLogin()
+    {
+        RequestToLogin(SystemInfo.deviceUniqueIdentifier, string.Empty);
+    }
+
+    public void SenCustomRequest()
+    {
+        NetworkManager.Instance.sfs.Send(new ExtensionRequest("createhunt", new SFSObject()));
+    }
     public void RequestToJoinRoom(string a_roomName)
     {
       
