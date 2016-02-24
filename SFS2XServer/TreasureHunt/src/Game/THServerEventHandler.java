@@ -5,7 +5,7 @@
  */
 package Game;
 
-import Game.Extensions.TreasureHunZonetExtension;
+import Game.Extensions.TreasureHuntZoneExtension;
 import Game.Keys;
 import com.smartfoxserver.bitswarm.sessions.Session;
 import com.smartfoxserver.v2.core.ISFSEvent;
@@ -153,7 +153,7 @@ public class THServerEventHandler extends BaseServerEventHandler
     void handleServerReadyEvent(ISFSEvent isfse) throws SFSException
     {
         trace("^^^^^^^^^^^^^^^^^^^^server Ready^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        TreasureHunZonetExtension.getInstance().setIsReady(true);
+        TreasureHuntZoneExtension.getInstance().setIsReady(true);
     }
 
     private void handleRoomAddedEvent(ISFSEvent event)
