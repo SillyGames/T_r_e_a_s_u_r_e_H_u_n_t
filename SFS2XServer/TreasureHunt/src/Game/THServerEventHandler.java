@@ -12,6 +12,7 @@ import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.SFSEventParam;
 import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.User;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -25,8 +26,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -34,9 +33,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class THServerEventHandler extends BaseServerEventHandler 
 {
-    private final boolean UseQuickHackLogin = true;
+    //private final boolean UseQuickHackLogin = true;
     
-    private static Map<String, String> m_loginData = null;
+    //private static Map<String, String> m_loginData = null;
     
     @Override
     public void handleServerEvent(ISFSEvent event) throws SFSException 
@@ -62,73 +61,34 @@ public class THServerEventHandler extends BaseServerEventHandler
     
     void handleUserLoginEvent(ISFSEvent event) throws SFSException
     {
-        if(m_loginData == null)
-        {
-            m_loginData = new ConcurrentHashMap<String,String>();
-            m_loginData.put("7d3124f7377c3079c6c13c15b2d2dfc154867ad2", "Prasad");
-        }
-        trace("``````````||````````````LoginHandler user User Request For Login !!!!!! "  ); 
+        trace("LoginHandler user User Request For Login !!!!!! "  ); 
         String userDeviceID = (String) event.getParameter(SFSEventParam.LOGIN_NAME);
         //String password = (String) event.getParameter(SFSEventParam.LOGIN_PASSWORD);
         //ISFSObject l_sfsLoginData = (SFSObject)event.getParameter(SFSEventParam.LOGIN_IN_DATA);
-        ISFSObject l_sfsLoginOutData = (SFSObject)event.getParameter(SFSEventParam.LOGIN_OUT_DATA);
+        //ISFSObject l_sfsLoginOutData = (SFSObject)event.getParameter(SFSEventParam.LOGIN_OUT_DATA);
         Session session = (Session)event.getParameter(SFSEventParam.SESSION);
         
-        //String deviceid = l_sfsLoginData.getUtfString(Keys.DEVICE_ID);
-                
-        //<editor-fold defaultstate="collapsed" desc="Quick Hack Login, remove later">
-        if(UseQuickHackLogin)
-        {
-           String userName;
-            if(m_loginData.containsKey(userDeviceID))
-            {
-                userName = m_loginData.get(userDeviceID );
-            }
-            else
-            {
-                throw new SFSException("EEEE: QuickHack Login Failed!!!");
-            }
-            session.setProperty(Keys.DEVICE_ID, userDeviceID);
-            session.setProperty(Keys.USER_NAME, userName);
-            l_sfsLoginOutData.putUtfString(Keys.USER_NAME, userName);
-            trace("Login Success!!!!!! User Name  " +userName);
-            
-            return;
-        }
-//</editor-fold>
-        
-        //ISession session = (ISession)event.getParameter(SFSEventParam.SESSION);
-         Connection conn = null;
+        Connection conn;
         try {
             //get a connection to the database
             conn = getParentExtension().getParentZone().getDBManager().getConnection();
 
             //This will strip potential SQL injections SELECT username FROM treasurehunt.userlogin where userid ='1001';
-            PreparedStatement sql = conn.prepareStatement("SELECT username FROM treasurehunt.userlogin WHERE userid = ?");
+            PreparedStatement sql = conn.prepareStatement(DBQueries.SELECT_USER_BY_USER_ID);
             sql.setString(1, userDeviceID);
             ResultSet result = sql.executeQuery();
-            SFSArray row = SFSArray.newFromResultSet(result);
-            if(row.size()<=0)
+            ISFSArray  array = SFSArray.newFromResultSet(result);
+            String userName = ((ISFSObject)array.get(0).getObject()).getUtfString("displayname");
+            if(!result.first())
             {
                 SFSErrorData data = new SFSErrorData(SFSErrorCode.LOGIN_BAD_PASSWORD);
                 data.addParameter(userDeviceID);
                 throw new SFSLoginException("User Does not Exits "  + userDeviceID, data);
             }
-            if(!userDeviceID.equals(row.getSFSObject(0).getUtfString("username")))
-            {
-                trace("Login failed: "+row.getSFSObject(0).getUtfString("username"));
-                
-
-                //SFSErrorCodes.setErrorMessage(13, "Le Groupe demandé n'est pas disponible - Salle: {0}; Groupe: {1}");
-                SFSErrorData errData  = new SFSErrorData(SFSErrorCode.LOGIN_BAD_USERNAME);
-                errData.addParameter(userDeviceID+ " "+ SFSErrorCode.LOGIN_BAD_USERNAME.getId());
-                throw new SFSLoginException("Login failed for user name does not match: "  + userDeviceID, errData);
-            }
             
             conn.close();     
-            trace("___________________Login sucess with device id: " + userDeviceID);
-            session.setProperty(Keys.DEVICE_ID, userDeviceID);
-            trace("Login successful, joining room!" + row.getDump());
+            trace("___________________Login sucess with device id: " + userDeviceID + ", and user name: " + userName);
+            session.setProperty(Keys.USER_NAME, userName);
         } 
         catch (SQLException e)
         {
@@ -143,7 +103,7 @@ public class THServerEventHandler extends BaseServerEventHandler
     void handleUserJoinZoneEvent(ISFSEvent isfse) throws SFSException 
     {
         User user = (User) isfse.getParameter(SFSEventParam.USER);
-        String deviceID = (String) user.getSession().getProperty(Keys.DEVICE_ID);
+        String deviceID = user.getName();
         String name = (String) user.getSession().getProperty(Keys.USER_NAME);
         user.setName(name);
         trace("________||||_____________User joined the jone, Name: " + user.getName() + ", device ID: " + deviceID );
@@ -153,7 +113,9 @@ public class THServerEventHandler extends BaseServerEventHandler
     void handleServerReadyEvent(ISFSEvent isfse) throws SFSException
     {
         trace("^^^^^^^^^^^^^^^^^^^^server Ready^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        //trace("TH evt class ID: " + TreasureHuntZoneExtension.class.hashCode() + ", class: " + TreasureHuntZoneExtension.class);
         TreasureHuntZoneExtension.getInstance().setIsReady(true);
+        
     }
 
     private void handleRoomAddedEvent(ISFSEvent event)
