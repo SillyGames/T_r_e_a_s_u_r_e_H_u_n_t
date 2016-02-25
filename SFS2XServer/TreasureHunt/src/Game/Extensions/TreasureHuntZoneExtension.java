@@ -7,14 +7,16 @@
 package Game.Extensions;
 
 import Game.Keys;
-import Game.requestHandlers.GameRequestsHandler;
 import Game.THEntities.THClue;
 import Game.THEntities.THElement;
 import Game.THEntities.THTeam;
 import Game.THEntities.TreasureHunt;
 import Game.THServerEventHandler;
+import Game.requestHandlers.GameRequestsHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.smartfoxserver.v2.annotations.Instantiation;
+import static com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode.SINGLE_INSTANCE;
 import com.smartfoxserver.v2.api.CreateRoomSettings;
 import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.Room;
@@ -30,6 +32,7 @@ import java.util.logging.Logger;
  *
  * @author Janhavi
  */
+@Instantiation(SINGLE_INSTANCE)
 public class TreasureHuntZoneExtension extends  SFSExtension
 {
     //<editor-fold defaultstate="collapsed" desc="Static Members">
