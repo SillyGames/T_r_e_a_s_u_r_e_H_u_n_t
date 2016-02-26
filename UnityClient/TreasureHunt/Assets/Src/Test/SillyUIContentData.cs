@@ -30,7 +30,7 @@ public class SillyUIContentData : MonoBehaviour
     private void OnClickJoinGame()
     {
         Debug.Log(m_gameID);
-        FiniteStateMachine.Instance.ChangeState(FSMState.EState.Game);
+       // FiniteStateMachine.Instance.ChangeState(FSMState.EState.Game);
     }
 
     // Update is called once per frame

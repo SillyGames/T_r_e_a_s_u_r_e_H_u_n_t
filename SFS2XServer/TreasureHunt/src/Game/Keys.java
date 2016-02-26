@@ -21,6 +21,7 @@ public class Keys
     public static String GAME_HUNT_CREATE = "game.createHunt";
     public static String GAME_HUNT_DELETE = "game.deleteHunt";
     public static String GAME_HUNT_OPEN = "game.openHunt";
+    public static String GAME_HUNT_ASSETS_INFO = "game.GetAssetsInfo";
     //</editor-fold>
     
     public static String HUNT_REQUESTS = "hunt";

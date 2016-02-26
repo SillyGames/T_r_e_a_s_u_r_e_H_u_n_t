@@ -35,7 +35,8 @@ public class baseRequestHandler extends BaseClientRequestHandler
                 | IllegalArgumentException | IllegalAccessException
                 | InvocationTargetException e)
         {
-            trace("Exception in command method..: " + e.getMessage() + ", Exception type: " + e.getClass().getTypeName());
+            
+            //trace("Exception in command method..: " + e.getMessage() + ", Exception type: " + e.getClass().getTypeName());
         }
     }
 }

@@ -289,6 +289,6 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         clearAll();
         reset();
         sfs.Disconnect();
-        sfs = null;
+       // sfs = null;
     }
 }
