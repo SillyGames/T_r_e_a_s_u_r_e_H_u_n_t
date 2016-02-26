@@ -15,7 +15,8 @@ import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
-import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
+import com.smartfoxserver.v2.entities.variables.UserVariable;
 import com.smartfoxserver.v2.exceptions.SFSErrorCode;
 import com.smartfoxserver.v2.exceptions.SFSErrorData;
 import com.smartfoxserver.v2.exceptions.SFSException;
@@ -105,7 +106,9 @@ public class THServerEventHandler extends BaseServerEventHandler
         User user = (User) isfse.getParameter(SFSEventParam.USER);
         String deviceID = user.getName();
         String name = (String) user.getSession().getProperty(Keys.USER_NAME);
-        user.setName(name);
+        //user.setName(name);
+        UserVariable var = new SFSUserVariable(Keys.USERVAR_DEVICEID, deviceID);
+        user.setVariable(var);
         trace("________||||_____________User joined the jone, Name: " + user.getName() + ", device ID: " + deviceID );
         //print and check if you getting the device id correctly
     }

@@ -193,7 +193,9 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
 
     public void SenCustomRequest()
     {
-        NetworkManager.Instance.sfs.Send(new ExtensionRequest("game.createHunt", new SFSObject()));
+        ISFSObject data = new SFSObject();
+        data.PutUtfString("huntname", "wallahHunt");
+        NetworkManager.Instance.sfs.Send(new ExtensionRequest("game.createHunt", data));
     }
     public void RequestToJoinRoom(string a_roomName)
     {
