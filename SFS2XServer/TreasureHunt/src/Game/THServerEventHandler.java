@@ -6,6 +6,7 @@
 package Game;
 
 import Game.Extensions.TreasureHuntZoneExtension;
+import Game.Keys;
 import com.smartfoxserver.bitswarm.sessions.Session;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.SFSEventParam;
@@ -14,6 +15,8 @@ import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
+import com.smartfoxserver.v2.entities.variables.UserVariable;
 import com.smartfoxserver.v2.exceptions.SFSErrorCode;
 import com.smartfoxserver.v2.exceptions.SFSErrorData;
 import com.smartfoxserver.v2.exceptions.SFSException;
@@ -59,12 +62,11 @@ public class THServerEventHandler extends BaseServerEventHandler
     
     void handleUserLoginEvent(ISFSEvent event) throws SFSException
     {
-        //trace("LoginHandler user User Request For Login !!!!!! "  ); 
+        trace("LoginHandler user User Request For Login !!!!!! "  ); 
         String userDeviceID = (String) event.getParameter(SFSEventParam.LOGIN_NAME);
         //String password = (String) event.getParameter(SFSEventParam.LOGIN_PASSWORD);
         //ISFSObject l_sfsLoginData = (SFSObject)event.getParameter(SFSEventParam.LOGIN_IN_DATA);
         //ISFSObject l_sfsLoginOutData = (SFSObject)event.getParameter(SFSEventParam.LOGIN_OUT_DATA);
-        trace("LoginHandler user User Request For Login !!!!!!  "+ userDeviceID );
         Session session = (Session)event.getParameter(SFSEventParam.SESSION);
         
         Connection conn;
@@ -105,6 +107,8 @@ public class THServerEventHandler extends BaseServerEventHandler
         String deviceID = user.getName();
         String name = (String) user.getSession().getProperty(Keys.USER_NAME);
         //user.setName(name);
+        UserVariable var = new SFSUserVariable(Keys.USERVAR_DEVICEID, deviceID);
+        user.setVariable(var);
         trace("________||||_____________User joined the jone, Name: " + user.getName() + ", device ID: " + deviceID );
         //print and check if you getting the device id correctly
     }

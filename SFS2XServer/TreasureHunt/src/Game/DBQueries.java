@@ -13,5 +13,6 @@ package Game;
 public class DBQueries
 {
     public static final String SELECT_USER_BY_USER_ID = "SELECT displayname FROM treasurehunt.userlogin WHERE userid = ?";
-    public static final String SELECT_ASSETS_BUNDLE =  "SELECT * from treasurehunt.AssetsInfo;";
+    
+    public static final String CREATE_HUNT = "INSERT INTO `treasurehunt`.`Hunts` (`name`, `owner`) VALUES (?, ?);";
 }
