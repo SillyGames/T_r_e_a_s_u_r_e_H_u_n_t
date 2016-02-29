@@ -19,7 +19,8 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         ConnectionSuccess,
         UserLogin,   
         UserLogout,
-        UserLoginError    
+        UserLoginError,
+        getAssetsInfo    
     }
 
     private static NetworkManager m_instance;
@@ -133,12 +134,28 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         sfs.Disconnect();
     }
 
-   
+
     private void onExtensionResponse(BaseEvent evt)
     {
-        Debug.Log("Network Manager :: response Extension Response ");
+        try
+        {
+            string cmd = (string)evt.Params["cmd"];
+            ISFSObject dt = (SFSObject)evt.Params["params"];
+            if (cmd ==Keys.CMD_ASSETS_INFO)
+            {
+                Debug.Log("onExtensionResponse :: game.getAssetsInfo :: "+ dt.GetDump());
+                OnResponseGetAssetsInfo(dt);
+            }
+            else if (cmd == "huntcreated")
+            {
+                Debug.Log("onExtensionResponse :: game.createHunt");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Exception handling response: " + e.Message + " >>> " + e.StackTrace);
+        }
     }
-
     private  void RegisterLoginEvent()
     {
         sfs.AddEventListener(SFSEvent.LOGIN, OnLogin);
@@ -191,7 +208,13 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         RequestToLogin(SystemInfo.deviceUniqueIdentifier, string.Empty);
     }
 
-    public void SenCustomRequest()
+    public void SendCustomRequestToGetAssetsInfo(string a_huntID)
+    {
+        ISFSObject data = new SFSObject();
+        data.PutUtfString("key_hunt_id", a_huntID);
+        NetworkManager.Instance.sfs.Send(new ExtensionRequest("game.getAssetsInfo", data));
+    }
+    public void SendCustomRequestToCreateHunt()
     {
         ISFSObject data = new SFSObject();
         data.PutUtfString("huntname", "wallahHunt");
@@ -200,7 +223,7 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
     public void RequestToJoinRoom(string a_roomName)
     {
       
-         //sfs.Send((new Sfs2X.Requests.JoinRoomRequest(sfs.GetRoomByName("PokerGame"),null,null,true)));
+        
     }
 
     void FixedUpdate()
@@ -279,6 +302,34 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         }
     }
 
+    private void OnResponseGetAssetsInfo(ISFSObject a_infoData)
+    {
+        //assetsinfo
+        if(a_infoData.GetBool(Keys.SUCCESS))
+        {
+            ISFSArray l_tempSfsArray = a_infoData.GetSFSArray(Keys.ASSETS_INFO);
+            List<AssetsInfo> l_allCurrentInfoList = new List<AssetsInfo>();
+            for (int indexAssetInfo = 0; indexAssetInfo < l_tempSfsArray.Count; indexAssetInfo++)
+            {
+                AssetsInfo l_temp = new AssetsInfo();
+                l_temp.AssetID = (int)(l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetLong("assetsid");
+                l_temp.ImageTargetID = (l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetUtfString("imagetargetid");
+                l_temp.URL = (l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetUtfString("assetsurl");
+                l_allCurrentInfoList.Add(l_temp);
+
+            }
+            GameBaseEvent l_assetsInfoEvent = new GameBaseEvent(eGameEvents.getAssetsInfo.ToString());
+            GameEventArgs l_eventArg = new GameEventArgs();
+            l_eventArg.EventData  = (object)l_allCurrentInfoList;
+            l_assetsInfoEvent.Args = l_eventArg;
+            dispatchEvent(this, l_assetsInfoEvent);
+        }
+        else
+        {
+            Debug.Log(a_infoData.GetUtfString(Keys.ERROR));
+        }
+    }
+
     private void OnConnectionLost(BaseEvent evt)
     {
         Debug.Log("NetWork Manger It's call when cannection is lost");
@@ -290,7 +341,7 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         Debug.Log("Application Is Disconnected ");
         clearAll();
         reset();
-        sfs.Disconnect();
-       // sfs = null;
+        DisConnect();
+       sfs = null;
     }
 }

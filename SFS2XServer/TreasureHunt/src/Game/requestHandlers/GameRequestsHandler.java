@@ -9,15 +9,11 @@ package Game.requestHandlers;
 import Game.DBQueries;
 import Game.Keys;
 import com.smartfoxserver.v2.annotations.MultiHandler;
-import com.smartfoxserver.v2.api.SFSApi;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.exceptions.SFSErrorCode;
-import com.smartfoxserver.v2.exceptions.SFSErrorData;
-import com.smartfoxserver.v2.exceptions.SFSLoginException;
 import com.smartfoxserver.v2.extensions.ExtensionLogLevel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,6 +73,46 @@ public class GameRequestsHandler extends baseRequestHandler
     public void openHunt(ISFSObject a_data, User a_user)
     {
         
+    }
+    
+    public void getAssetsInfo(ISFSObject a_data, User a_user)
+    {
+        trace("get Assest _____________________________ ");
+         ISFSObject data = new SFSObject();
+        Connection conn;
+        try {
+            //get a connection to the database
+            conn = getParentExtension().getParentZone().getDBManager().getConnection();
+            PreparedStatement sql = conn.prepareStatement(DBQueries.GET_ASSETS_INFO);
+           
+            trace("here is a sql stirng: " + sql.toString());
+           
+            ResultSet result = sql.executeQuery();
+            ISFSArray  array = SFSArray.newFromResultSet(result);
+            if(!result.first())
+            {
+                data.putBool(Keys.SUCCESS, false);
+                data.putUtfString(Keys.ERROR, "Assets Info Not Found");
+                send(Keys.CMD_ASSETS_INFO, data, a_user); 
+            }
+            else
+            {
+              data.putBool(Keys.SUCCESS, true); 
+              data.putSFSArray(Keys.ASSETS_INFO, array);
+              send(Keys.CMD_ASSETS_INFO, data, a_user); 
+            }
+            conn.close();     
+            //trace("___________________ Hunt Created with name: " + strHuntName + ", and owner name: " + a_user.getName());
+        } 
+        catch (SQLException e)
+        {
+            trace(ExtensionLogLevel.WARN, " SQL Hunt Creation failed: " + e.toString());
+            
+            
+            data.putBool(Keys.SUCCESS, false);
+            data.putUtfString(Keys.ERROR, e.toString());
+            send(Keys.CMD_ASSETS_INFO, data, a_user);
+        }
     }
     
 }

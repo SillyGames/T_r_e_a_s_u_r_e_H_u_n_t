@@ -17,13 +17,14 @@ public class Keys
     public static String HUNT_NAME = "huntname";
     public static String SUCCESS = "success";
     public static String ERROR = "error";
+    public static String ASSETS_INFO = "assetsinfo";
     
     //<editor-fold defaultstate="collapsed" desc="reuests related to the game">
     public static String GAME_REQUESTS = "game";
     public static String GAME_HUNT_CREATE = "game.createHunt";
     public static String GAME_HUNT_DELETE = "game.deleteHunt";
     public static String GAME_HUNT_OPEN = "game.openHunt";
-    public static String GAME_HUNT_ASSETS_INFO = "game.GetAssetsInfo";
+    public static String GAME_HUNT_ASSETS_INFO = "game.getAssetsInfo";
     //</editor-fold>
     
     public static String HUNT_REQUESTS = "hunt";
@@ -32,6 +33,6 @@ public class Keys
     
     public static String USERVAR_DEVICEID = "udid";
     
-    
+    public static String CMD_ASSETS_INFO = "cmd_assetsinfo";
     
 }

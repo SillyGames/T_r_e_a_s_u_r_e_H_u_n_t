@@ -50,7 +50,7 @@ public class SillyUIMainMenu : MonoBehaviour
     private void OnClickCreateBtn()
     {
         Debug.Log("______________sending custom request 'game'");
-        NetworkManager.Instance.SenCustomRequest();
+        NetworkManager.Instance.SendCustomRequestToCreateHunt();
     }
 
     // Update is called once per frame
