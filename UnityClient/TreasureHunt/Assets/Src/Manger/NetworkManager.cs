@@ -213,6 +213,7 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
         ISFSObject data = new SFSObject();
         data.PutUtfString("key_hunt_id", a_huntID);
         NetworkManager.Instance.sfs.Send(new ExtensionRequest("game.getAssetsInfo", data));
+       
     }
     public void SendCustomRequestToCreateHunt()
     {

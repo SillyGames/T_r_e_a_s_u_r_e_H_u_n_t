@@ -34,10 +34,10 @@ public class AssetsLoader : MonoBehaviour
 
     }
 
-    public void LoadAssetsBundle(string a_url, Action<AssetBundle> OnImageLoadComplete, Action<string> OnImageLoadError)
+    public void LoadAssetsBundle(string a_url, Action<AssetBundle> OnAssetsBundleComplete, Action<string> OnImageLoadError)
     {
         LoadAsset<AssetBundle> l_loadAsset = new LoadAsset<AssetBundle>();
-        l_loadAsset.RequestToLoadAsset(this, a_url, OnImageLoadComplete, OnImageLoadError);
+        l_loadAsset.RequestToLoadAsset(this, a_url, OnAssetsBundleComplete, OnImageLoadError);
     }
 
     class LoadAsset<T>
@@ -46,6 +46,7 @@ public class AssetsLoader : MonoBehaviour
         private Action<T> m_completeCallback;
         private Action<string> m_completeErrorCallback;
         private T m_currentData = default(T);
+        GameObject myPrefab;
         public void RequestToLoadAsset(AssetsLoader a_loader, string a_url, Action<T> OnImageLoadComplete, Action<string> OnImageLoadError)
         {
             a_loader.StartCoroutine(DownLoadAsset(a_url, OnImageLoadComplete, OnImageLoadError));
@@ -56,7 +57,7 @@ public class AssetsLoader : MonoBehaviour
             m_completeCallback = OnImageLoadComplete;
             m_completeErrorCallback = OnImageLoadError;
             WWW l_wwwRequest = new WWW(a_url);
-            Debug.Log("DownLoadImage :: " + l_wwwRequest.isDone);
+         
             while (!l_wwwRequest.isDone)
             { 
                 yield return new WaitForEndOfFrame();
@@ -69,20 +70,21 @@ public class AssetsLoader : MonoBehaviour
             }
             if (currentLoadType == typeof(AssetBundle))
             {
-                l_value = l_wwwRequest.assetBundle; 
+                l_value = l_wwwRequest.assetBundle;
+
             }
-            
             m_currentData = (T)l_value;
           
-            if (l_wwwRequest.error != string.Empty)
+            if (string.IsNullOrEmpty(l_wwwRequest.error))
             {
-                Debug.Log("DownLoadImage ::: >>>> Complete CallBack");
-                m_completeCallback.Invoke(m_currentData);
-                if (currentLoadType == typeof(AssetBundle))
-                {
-                    AssetBundle l_valuetemp = m_currentData as AssetBundle;
-                    l_valuetemp.Unload(false);
-                }
+               
+               m_completeCallback.Invoke(m_currentData);
+
+                AssetBundle temp = m_currentData as AssetBundle;
+
+                temp.Unload(false);
+              l_wwwRequest.Dispose();
+               
             }
             else
             {

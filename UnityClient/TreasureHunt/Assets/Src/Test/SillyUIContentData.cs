@@ -31,21 +31,12 @@ public class SillyUIContentData : MonoBehaviour
     private void OnClickJoinGame()
     {
         Debug.Log(m_gameID);
-        // FiniteStateMachine.Instance.ChangeState(FSMState.EState.Game);
-        NetworkManager.Instance.addEventListener(NetworkManager.eGameEvents.getAssetsInfo.ToString(), OnGetAllAssetsInfo);
-        NetworkManager.Instance.SendCustomRequestToGetAssetsInfo("xxx");
+       // 
+        GameManager.Instance.GetHuntInfo();
+       
     }
 
-    private void OnGetAllAssetsInfo(object sender, GameEventArgs args)
-    {
-        NetworkManager.Instance.removeEventListener(NetworkManager.eGameEvents.getAssetsInfo.ToString());
-
-        List<AssetsInfo> l_allCurrentInfoList = (List<AssetsInfo>)args.EventData;
-        for (int indexAssetinfo = 0; indexAssetinfo < l_allCurrentInfoList.Count; indexAssetinfo++)
-        {
-            Debug.Log(l_allCurrentInfoList[indexAssetinfo].AssetID);
-        }
-    }
+    
 
     // Update is called once per frame
     void Update () {
