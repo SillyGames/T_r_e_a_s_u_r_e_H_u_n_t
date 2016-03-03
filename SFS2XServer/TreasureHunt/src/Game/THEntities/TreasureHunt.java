@@ -1,11 +1,11 @@
 package Game.THEntities;
 
+import Game.IUIDGenerator;
+import Game.Keys;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.EnumMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 
 /*
@@ -19,20 +19,37 @@ import java.util.List;
  *
  * @author Janhavi
  */
-public class TreasureHunt extends THTeam
+public class TreasureHunt extends THTeam implements IUIDGenerator
 {
+    void TreasureHunt()
+    {
+        SetID(GetUID());
+        SetParentHunt(this);
+    }
+    
     @JsonProperty
     private List<THTeam> m_lstTeams = new ArrayList<THTeam>();
     public int GetTeamCount()
     {
         return m_lstTeams.size();
     }
-    public THTeam AddTeam()
+    
+    public void AddTeam(THTeam a_team)
     {
-        THTeam team = new THTeam();
-        m_lstTeams.add(team);
-        return team;
+        for (THTeam team : m_lstTeams)
+        {
+            if(team.getName().endsWith(a_team.getName()))
+            {
+                TraceE("Team with a same name already Exists: " + team.getName());
+                return;
+            }
+        }
+        Trace("Adding Team with a name: " + a_team.getName());
+        m_lstTeams.add(a_team);
+        a_team.SetParentHunt(this);
+        a_team.SetID(GetUID());
     }
+    
     public THTeam GetTeamByID(String a_strTeamID)
     {
         for (THTeam team : m_lstTeams)
@@ -102,11 +119,10 @@ public class TreasureHunt extends THTeam
     {
         return m_lstClues.subList(0, m_lstClues.size());
     }
-    public THClue AddClue()
+    private void AddClue(THClue a_clue)
     {
-        THClue clue = new THClue();
-        m_lstClues.add(clue);
-        return clue;
+        a_clue.SetID(GetUID().toString());            
+        m_lstClues.add(a_clue);
     }
 
     @JsonProperty
@@ -141,10 +157,96 @@ public class TreasureHunt extends THTeam
             }
             else
             {
-                THTrace("Connection with eveent type 'none': " + connection);
+                Trace("Connection with eveent type 'none': " + connection);
             }
         }
     }
 //</editor-fold>
     
+    public static TreasureHunt CreateFromData(ISFSObject a_data)
+    {
+        //creating a new Hunt is anyways getter since its clean and thread safe
+        TreasureHunt hunt = new TreasureHunt();
+        String huntName = a_data.getUtfString(Keys.TH_NAME);
+        Trace("Creating a treasure hunt with a name: " + huntName);
+        
+        int iTeamCount = a_data.getInt(Keys.TH_TEAM);
+        Trace("Total Teams in hunt: " + iTeamCount);
+        for (int i = 0; i < iTeamCount; i++)
+        {
+            String strTeamKey = Keys.TH_TEAM+i;
+            Trace("Reading team: " + strTeamKey);
+            ISFSObject teamData = a_data.getSFSObject(strTeamKey);   
+            THTeam  team = THTeam.CreateFromData(teamData);
+            hunt.AddTeam(team);
+        }
+        
+        Trace("Reading Global Clues");       
+        
+        return hunt;
+    }
+    
+    private static void ReadClues(TreasureHunt hunt, ISFSObject a_data)
+    {
+        
+        int iClueCount = a_data.getInt(Keys.TH_CLUE);
+        Trace("Reading Clues("+iClueCount+") for hunt: " + hunt.getName());
+        for (int i = 0; i < iClueCount; i++)
+        {
+            ISFSObject clueData = a_data.getSFSObject(Keys.TH_CLUE+i);
+            THClue clue = THClue.CreateFromData(clueData);
+            clue.SetContainerID(hunt.GetID());
+            hunt.AddClue(clue);
+            Trace("Created Clue: " + clue);
+            ReadSubClues(hunt,clue,clueData);
+        }
+    }
+    
+    private static void ReadSubClues(TreasureHunt hunt, THClue a_parentClue, ISFSObject a_data)
+    {
+        int iSubClueCount = a_data.getInt(Keys.TH_CLUE_SUBCLUES);
+        if(iSubClueCount > 0)
+        {
+            Trace("Retrieving sub-clues for the clue, count: " + iSubClueCount);
+            for (int i = 0; i < iSubClueCount; i++)
+            {
+                ISFSObject subClueData = a_data.getSFSObject(Keys.TH_CLUE_SUBCLUES+i);
+                THClue clue = THClue.CreateFromData(subClueData);
+                clue.SetContainerID(a_parentClue.GetID());
+                hunt.AddClue(clue);
+                Trace("Created Clue: " + clue);
+                ReadSubClues(hunt, clue,subClueData);
+            }
+        }
+    }
+    
+    private static void ReadSubClues(TreasureHunt hunt, THElement a_parentElement, ISFSObject a_data)
+    {
+        int iSubClueCount = a_data.getInt(Keys.TH_CLUE_SUBCLUES);
+        if(iSubClueCount > 0)
+        {
+            Trace("Retrieving sub-clues for the clue, count: " + iSubClueCount);
+            for (int i = 0; i < iSubClueCount; i++)
+            {
+                ISFSObject subClueData = a_data.getSFSObject(Keys.TH_CLUE_SUBCLUES+i);
+                THClue clue = THClue.CreateFromData(subClueData);
+                clue.SetContainerID(a_parentElement.GetID());
+                hunt.AddClue(clue);
+                Trace("Created Clue: " + clue);
+                ReadSubClues(hunt, clue,subClueData);
+            }
+        }
+    }
+    
+
+    ///its used internally, just for the internal elements, so 
+    ///it doesnt need to be static
+    private long m_lUIDGenerator = 0;
+    @Override
+    public Long GetUID()
+    {
+        return m_lUIDGenerator++;        
+    }
+    
+   
 }

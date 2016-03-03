@@ -8,8 +8,6 @@ package Game.THEntities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
 
 /**
  *
@@ -40,15 +38,18 @@ public class THElement
         this.m_strName = m_strName;
     }
     
-    public ISFSObject ConvertToSFSObject()
-    {
-        ISFSObject obj = new SFSObject();
-        obj.putUtfString(THConstants.TH_ELEMENT_ID, m_strID );
-        return obj;        
-    }
-    
-    public static void THTrace(Object a_data)
+    public static void Trace(Object a_data)
     {
         System.out.println("THTrace: " + a_data);
+    }
+    
+    public static void TraceW(Object a_data)
+    {
+        Trace("WWWWWW: " + a_data);
+    }
+    
+    public static void TraceE(Object a_data)
+    {
+        Trace("EEEEEE: " + a_data);
     }
 }

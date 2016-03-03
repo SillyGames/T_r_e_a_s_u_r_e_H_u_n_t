@@ -31,6 +31,16 @@ public class Keys
     
     public static String USERVAR_DEVICEID = "udid";
     
-    
-    
+    //Treasure Hunt ISFSObject conversion
+    public static String TH = "th";
+    public static String TH_TEAM = "thteam";
+    public static String TH_NAME = "thname";
+    public static String TH_TEAM_NAME = "thteamname";
+    public static String TH_CLUE = "thclue";
+    public static String TH_CLUE_NAME = "thcluename"; //used for clueTitle as well, both are same
+    public static String TH_CLUE_TITLE = "thcluetitle";
+    public static String TH_CLUE_TEXT = "thcluetext";
+    public static String TH_CLUE_IMAGE = "thclueimage";
+    public static String TH_CLUE_TRACKER = "thcluetracker";    
+    public static String TH_CLUE_SUBCLUES = "thsubclues";
 }

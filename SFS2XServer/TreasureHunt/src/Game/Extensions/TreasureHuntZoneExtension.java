@@ -72,30 +72,30 @@ public class TreasureHuntZoneExtension extends  SFSExtension
         m_bIsReady = a_bIsReady;
     }
 //</editor-fold>
-    
+    /*
     void TestJSON()
     {
-        ObjectMapper  mapper =  new ObjectMapper();
-        TreasureHunt th = new TreasureHunt();
-        THElement elem = th;
-        
-        //add test data and see if it gets serialized correctly
-        THTeam team =  th.AddTeam();
-        THClue clue = th.AddClue();
-        
-        try
-        {
-            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-            String strData = mapper.writeValueAsString(elem);
-            trace("This is the serialized data: \n" + strData);
-            THElement rebornElem =  mapper.readValue(strData, THElement.class);
-            trace("Type of reborn element: " + rebornElem.getClass());
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    ObjectMapper  mapper =  new ObjectMapper();
+    TreasureHunt th = new TreasureHunt();
+    THElement elem = th;
+    
+    //add test data and see if it gets serialized correctly
+    THTeam team =  th.AddTeam();
+    THClue clue = th.AddClue();
+    
+    try
+    {
+    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+    String strData = mapper.writeValueAsString(elem);
+    trace("This is the serialized data: \n" + strData);
+    THElement rebornElem =  mapper.readValue(strData, THElement.class);
+    trace("Type of reborn element: " + rebornElem.getClass());
     }
+    catch (IOException ex)
+    {
+    Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }*/
    
     public void CreateTreasureHuntRoom()
     {
