@@ -114,5 +114,7 @@ public class GameRequestsHandler extends baseRequestHandler
             send(Keys.CMD_ASSETS_INFO, data, a_user);
         }
     }
-    
+    public void OnTrackbleEventIsFound()
+    {
+    }
 }

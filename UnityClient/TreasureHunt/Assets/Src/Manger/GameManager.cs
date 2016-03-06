@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 public class GameManager : MonoBehaviour {
 
-    // Use this for initialization
     private static GameManager m_instance;
     public static GameManager Instance
     {
@@ -22,6 +21,10 @@ public class GameManager : MonoBehaviour {
             return m_allAssetsCurrentInfoList;
         }
     }
+
+  
+    private int TotalAssets = 0;
+    private List<AssetsData> m_assetsGameObjlst = new List<AssetsData>();
     void Awake()
     {
         m_instance = this;
@@ -31,16 +34,14 @@ public class GameManager : MonoBehaviour {
 	
 	}
 	
-	void Update () {
 	
-	}
-
     internal void GetHuntInfo()
     {
         Debug.Log("GetHuntInfo");
         m_allAssetsCurrentInfoList = null;
+        m_assetsGameObjlst.Clear();
         NetworkManager.Instance.addEventListener(NetworkManager.eGameEvents.getAssetsInfo.ToString(), OnGetAllAssetsInfo);
-        NetworkManager.Instance.SendCustomRequestToGetAssetsInfo("xxx");
+        NetworkManager.Instance.SendCustomRequestToGetAssetsInfo("");
     }
     private void OnGetAllAssetsInfo(object sender, GameEventArgs args)
     {
@@ -48,5 +49,36 @@ public class GameManager : MonoBehaviour {
         m_allAssetsCurrentInfoList = (List<AssetsInfo>)args.EventData;
         FiniteStateMachine.Instance.ChangeState(FSMState.EState.Game);
 
+    }
+
+    public void OnEnterGameState()
+    {
+        LoadingGameAssets();
+    }
+    private void LoadingGameAssets()
+    {
+        for (int i = 0; i < GameManager.Instance.AllAssetsInfoList.Count; i++)
+        {
+            AssetsLoader.Instance.LoadAssetsBundle(GameManager.Instance.AllAssetsInfoList[i], OnAssetsLoadingComplete, OnLoadingError);
+        }
+    }
+
+    void OnAssetsLoadingComplete(AssetBundle a_assetsbundle, AssetsInfo a_assetsInfo)
+    {
+        TotalAssets++;
+        GameObject loadedObject;
+        loadedObject = Instantiate(a_assetsbundle.LoadAsset(a_assetsInfo.AssetName, typeof(GameObject))) as GameObject;
+        loadedObject.SetActive(false);
+        m_assetsGameObjlst.Add(loadedObject.GetComponent<AssetsData>());
+        if (TotalAssets == GameManager.Instance.AllAssetsInfoList.Count)
+        {
+          GameState l_gameState =  FiniteStateMachine.Instance.GetCurrentState<GameState>();
+            l_gameState.MakeActiveArCameraAndImageTarget(m_assetsGameObjlst);
+        }
+    }
+
+    void OnLoadingError(string a_error)
+    {
+        Debug.Log(a_error);
     }
 }

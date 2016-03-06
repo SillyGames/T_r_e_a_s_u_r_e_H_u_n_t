@@ -316,6 +316,7 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
                 l_temp.AssetID = (int)(l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetLong("assetsid");
                 l_temp.ImageTargetID = (l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetUtfString("imagetargetid");
                 l_temp.URL = (l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetUtfString("assetsurl");
+                l_temp.AssetName = (l_tempSfsArray.GetSFSObject(indexAssetInfo)).GetUtfString("assetname");
                 l_allCurrentInfoList.Add(l_temp);
 
             }

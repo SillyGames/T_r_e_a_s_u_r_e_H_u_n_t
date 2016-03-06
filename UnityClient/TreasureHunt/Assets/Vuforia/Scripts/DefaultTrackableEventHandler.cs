@@ -4,6 +4,7 @@ All Rights Reserved.
 Confidential and Proprietary - Qualcomm Connected Experiences, Inc.
 ==============================================================================*/
 
+using System;
 using UnityEngine;
 
 namespace Vuforia
@@ -12,18 +13,38 @@ namespace Vuforia
     /// A custom handler that implements the ITrackableEventHandler interface.
     /// </summary>
     public class DefaultTrackableEventHandler : MonoBehaviour,
-                                                ITrackableEventHandler
+                                                ITrackableEventHandler,IEventDispatcher
     {
         #region PRIVATE_MEMBER_VARIABLES
  
         private TrackableBehaviour mTrackableBehaviour;
-    
-        #endregion // PRIVATE_MEMBER_VARIABLES
+        private EventManager m_eventManager;
 
+        public enum TrackableEvent
+        {
+            OnTrackingFound,
+            OnTrackingLost
+        }
+
+        #endregion // PRIVATE_MEMBER_VARIABLES
+        private static DefaultTrackableEventHandler m_instance;
+        public static DefaultTrackableEventHandler Instance
+        {
+            get
+            {
+
+                return m_instance;
+            }
+        }
 
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
-    
+        void Awake()
+        {
+            m_instance = this;
+            m_eventManager = new EventManager();
+        }
+
         void Start()
         {
             mTrackableBehaviour = GetComponent<TrackableBehaviour>();
@@ -31,6 +52,7 @@ namespace Vuforia
             {
                 mTrackableBehaviour.RegisterTrackableEventHandler(this);
             }
+           
         }
 
         #endregion // UNTIY_MONOBEHAVIOUR_METHODS
@@ -47,7 +69,7 @@ namespace Vuforia
                                         TrackableBehaviour.Status previousStatus,
                                         TrackableBehaviour.Status newStatus)
         {
-            Debug.Log("sdlflshdflsdhflshflshfjls");
+           
             if (newStatus == TrackableBehaviour.Status.DETECTED ||
                 newStatus == TrackableBehaviour.Status.TRACKED ||
                 newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
@@ -85,6 +107,8 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
+            GameBaseEvent l_traceEvent = new GameBaseEvent(TrackableEvent.OnTrackingFound.ToString());
+            dispatchEvent(this, l_traceEvent);
         }
 
 
@@ -106,6 +130,28 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+            GameBaseEvent l_traceEvent = new GameBaseEvent(TrackableEvent.OnTrackingLost.ToString());
+            dispatchEvent(this, l_traceEvent);
+        }
+
+        public void addEventListener(string a_eventName, DelegateWarapper.GameEventHandler a_eventHandler)
+        {
+            m_eventManager.addEvent(a_eventName, a_eventHandler);
+        }
+
+        public void removeEventListener(string a_eventName)
+        {
+            m_eventManager.RemoveEvent(a_eventName);
+        }
+
+        public void dispatchEvent(object sender, GameBaseEvent a_baseEvent)
+        {
+            m_eventManager.DispatchEvent(sender, a_baseEvent);
+        }
+
+        public void clearAll()
+        {
+            m_eventManager.ClearAll();
         }
 
         #endregion // PRIVATE_METHODS

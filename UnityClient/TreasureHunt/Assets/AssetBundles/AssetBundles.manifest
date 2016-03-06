@@ -2,5 +2,11 @@ ManifestFileVersion: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: test.unity3d
+      Name: targetone.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: targetthree.unity3d
+      Dependencies: {}
+    Info_2:
+      Name: targettwo.unity3d
       Dependencies: {}

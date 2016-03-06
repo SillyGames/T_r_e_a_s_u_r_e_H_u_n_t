@@ -5,6 +5,7 @@ using System;
 [Serializable]
 public class AssetsInfo
 {
+    [SerializeField]
     private int m_assetID;
     public int AssetID
     {
@@ -18,6 +19,7 @@ public class AssetsInfo
         }
     }
 
+    [SerializeField]
     private string m_imageTargetID;
     public string ImageTargetID
     {
@@ -28,6 +30,20 @@ public class AssetsInfo
         set
         {
             m_imageTargetID = value;
+
+        }
+    }
+    [SerializeField]
+    private string m_assetsName;
+    public string AssetName
+    {
+        get
+        {
+            return m_assetsName;
+        }
+        set
+        {
+            m_assetsName = value;
 
         }
     }
