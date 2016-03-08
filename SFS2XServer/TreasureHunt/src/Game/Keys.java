@@ -41,6 +41,5 @@ public class Keys
     public static String TH_CLUE_TITLE = "thcluetitle";
     public static String TH_CLUE_TEXT = "thcluetext";
     public static String TH_CLUE_IMAGE = "thclueimage";
-    public static String TH_CLUE_TRACKER = "thcluetracker";    
-    public static String TH_CLUE_SUBCLUES = "thsubclues";
+    public static String TH_CLUE_TRACKER = "thcluetracker";
 }

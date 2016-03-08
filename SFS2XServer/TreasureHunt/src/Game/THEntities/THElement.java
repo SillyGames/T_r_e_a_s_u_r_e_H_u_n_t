@@ -52,4 +52,11 @@ public class THElement
     {
         Trace("EEEEEE: " + a_data);
     }
+
+    @Override
+    public String toString()
+    {
+        return getName()+ "[" + getClass().getName() + ":" + GetID() + "]";
+    }
+    
 }

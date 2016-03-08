@@ -41,7 +41,6 @@ public class TreasureHunt extends THTeam implements IUIDGenerator
             if(team.getName().endsWith(a_team.getName()))
             {
                 TraceE("Team with a same name already Exists: " + team.getName());
-                return;
             }
         }
         Trace("Adding Team with a name: " + a_team.getName());
@@ -163,13 +162,21 @@ public class TreasureHunt extends THTeam implements IUIDGenerator
     }
 //</editor-fold>
     
+    ///this clue is work in progress
     public static TreasureHunt CreateFromData(ISFSObject a_data)
     {
         //creating a new Hunt is anyways getter since its clean and thread safe
         TreasureHunt hunt = new TreasureHunt();
         String huntName = a_data.getUtfString(Keys.TH_NAME);
-        Trace("Creating a treasure hunt with a name: " + huntName);
         
+        Trace("Creating a treasure hunt with a name: " + huntName);
+        hunt.setName(huntName);
+        
+        //read clues that are directly in the hunt
+        Trace("Reading Global Clues");
+        ReadClues(hunt, hunt, a_data);
+        
+        //read teams
         int iTeamCount = a_data.getInt(Keys.TH_TEAM);
         Trace("Total Teams in hunt: " + iTeamCount);
         for (int i = 0; i < iTeamCount; i++)
@@ -179,61 +186,27 @@ public class TreasureHunt extends THTeam implements IUIDGenerator
             ISFSObject teamData = a_data.getSFSObject(strTeamKey);   
             THTeam  team = THTeam.CreateFromData(teamData);
             hunt.AddTeam(team);
-        }
-        
-        Trace("Reading Global Clues");       
+            //read clues in that team
+            ReadClues(hunt, team, teamData);
+        }       
         
         return hunt;
     }
     
-    private static void ReadClues(TreasureHunt hunt, ISFSObject a_data)
+    private static void ReadClues(TreasureHunt hunt, THElement a_parentElement, ISFSObject a_data)
     {
-        
-        int iClueCount = a_data.getInt(Keys.TH_CLUE);
-        Trace("Reading Clues("+iClueCount+") for hunt: " + hunt.getName());
-        for (int i = 0; i < iClueCount; i++)
-        {
-            ISFSObject clueData = a_data.getSFSObject(Keys.TH_CLUE+i);
-            THClue clue = THClue.CreateFromData(clueData);
-            clue.SetContainerID(hunt.GetID());
-            hunt.AddClue(clue);
-            Trace("Created Clue: " + clue);
-            ReadSubClues(hunt,clue,clueData);
-        }
-    }
-    
-    private static void ReadSubClues(TreasureHunt hunt, THClue a_parentClue, ISFSObject a_data)
-    {
-        int iSubClueCount = a_data.getInt(Keys.TH_CLUE_SUBCLUES);
+        int iSubClueCount = a_data.getInt(Keys.TH_CLUE);
         if(iSubClueCount > 0)
         {
-            Trace("Retrieving sub-clues for the clue, count: " + iSubClueCount);
+            Trace("Retrieving clues for the parent: " + a_parentElement + ", count: " + iSubClueCount);
             for (int i = 0; i < iSubClueCount; i++)
             {
-                ISFSObject subClueData = a_data.getSFSObject(Keys.TH_CLUE_SUBCLUES+i);
-                THClue clue = THClue.CreateFromData(subClueData);
-                clue.SetContainerID(a_parentClue.GetID());
-                hunt.AddClue(clue);
-                Trace("Created Clue: " + clue);
-                ReadSubClues(hunt, clue,subClueData);
-            }
-        }
-    }
-    
-    private static void ReadSubClues(TreasureHunt hunt, THElement a_parentElement, ISFSObject a_data)
-    {
-        int iSubClueCount = a_data.getInt(Keys.TH_CLUE_SUBCLUES);
-        if(iSubClueCount > 0)
-        {
-            Trace("Retrieving sub-clues for the clue, count: " + iSubClueCount);
-            for (int i = 0; i < iSubClueCount; i++)
-            {
-                ISFSObject subClueData = a_data.getSFSObject(Keys.TH_CLUE_SUBCLUES+i);
+                ISFSObject subClueData = a_data.getSFSObject(Keys.TH_CLUE+i);
                 THClue clue = THClue.CreateFromData(subClueData);
                 clue.SetContainerID(a_parentElement.GetID());
                 hunt.AddClue(clue);
-                Trace("Created Clue: " + clue);
-                ReadSubClues(hunt, clue,subClueData);
+                Trace("Created Clue["+i+"]: " + clue);
+                ReadClues(hunt, clue,subClueData);
             }
         }
     }
