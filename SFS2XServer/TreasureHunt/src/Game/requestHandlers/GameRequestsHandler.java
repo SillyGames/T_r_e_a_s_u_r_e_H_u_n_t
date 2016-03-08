@@ -9,19 +9,12 @@ package Game.requestHandlers;
 import Game.DBQueries;
 import Game.Keys;
 import com.smartfoxserver.v2.annotations.MultiHandler;
-import com.smartfoxserver.v2.api.SFSApi;
 import com.smartfoxserver.v2.entities.User;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.exceptions.SFSErrorCode;
-import com.smartfoxserver.v2.exceptions.SFSErrorData;
-import com.smartfoxserver.v2.exceptions.SFSLoginException;
 import com.smartfoxserver.v2.extensions.ExtensionLogLevel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
