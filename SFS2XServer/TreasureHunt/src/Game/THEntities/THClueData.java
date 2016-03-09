@@ -12,7 +12,8 @@ package Game.THEntities;
  */
 public class THClueData
 {
-    public String m_strTitle = "";
+    //using clue.getName() instead
+    //public String m_strTitle = "";
     public String m_strText = "";
     public String m_strImage = "";
     public String m_strTracker = "";

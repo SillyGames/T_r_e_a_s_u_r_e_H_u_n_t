@@ -14,6 +14,7 @@ public class Keys
 {
     public static String DEVICE_ID = "deviceid";
     public static String USER_NAME = "username";
+    public static String USER_ROLE = "userrole";
     public static String HUNT_NAME = "huntname";
     public static String SUCCESS = "success";
     public static String ERROR = "error";
@@ -25,14 +26,24 @@ public class Keys
     public static String GAME_HUNT_DELETE = "game.deleteHunt";
     public static String GAME_HUNT_OPEN = "game.openHunt";
     public static String GAME_HUNT_ASSETS_INFO = "game.getAssetsInfo";
+    public static String GAME_HUNT_LIST_HUNTS = "game.listHunts";
     //</editor-fold>
     
     public static String HUNT_REQUESTS = "hunt";
     
     public static String CMD_HUNTCREATED = "huntcreated";
     
-    public static String USERVAR_DEVICEID = "udid";
-    
     public static String CMD_ASSETS_INFO = "cmd_assetsinfo";
     
+    //Treasure Hunt ISFSObject conversion
+    public static String TH = "th";
+    public static String TH_TEAM = "thteam";
+    public static String TH_NAME = "thname";
+    public static String TH_TEAM_NAME = "thteamname";
+    public static String TH_CLUE = "thclue";
+    public static String TH_CLUE_NAME = "thcluename"; //used for clueTitle as well, both are same
+    public static String TH_CLUE_TITLE = "thcluetitle";
+    public static String TH_CLUE_TEXT = "thcluetext";
+    public static String TH_CLUE_IMAGE = "thclueimage";
+    public static String TH_CLUE_TRACKER = "thcluetracker";
 }

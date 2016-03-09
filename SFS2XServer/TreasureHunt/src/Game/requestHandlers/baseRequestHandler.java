@@ -11,6 +11,8 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
@@ -38,5 +40,10 @@ public class baseRequestHandler extends BaseClientRequestHandler
             
             //trace("Exception in command method..: " + e.getMessage() + ", Exception type: " + e.getClass().getTypeName());
         }
+    }
+    
+    protected Connection getConnection() throws SQLException
+    {
+        return getParentExtension().getParentZone().getDBManager().getConnection();
     }
 }

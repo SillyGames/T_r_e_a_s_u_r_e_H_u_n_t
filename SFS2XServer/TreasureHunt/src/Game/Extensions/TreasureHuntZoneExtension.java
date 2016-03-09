@@ -7,14 +7,8 @@
 package Game.Extensions;
 
 import Game.Keys;
-import Game.THEntities.THClue;
-import Game.THEntities.THElement;
-import Game.THEntities.THTeam;
-import Game.THEntities.TreasureHunt;
 import Game.THServerEventHandler;
 import Game.requestHandlers.GameRequestsHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.smartfoxserver.v2.annotations.Instantiation;
 import static com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode.SINGLE_INSTANCE;
 import com.smartfoxserver.v2.api.CreateRoomSettings;
@@ -22,7 +16,6 @@ import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.exceptions.SFSCreateRoomException;
 import com.smartfoxserver.v2.extensions.SFSExtension;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import Game.Keys;
@@ -72,30 +65,30 @@ public class TreasureHuntZoneExtension extends  SFSExtension
         m_bIsReady = a_bIsReady;
     }
 //</editor-fold>
-    
+    /*
     void TestJSON()
     {
-        ObjectMapper  mapper =  new ObjectMapper();
-        TreasureHunt th = new TreasureHunt();
-        THElement elem = th;
-        
-        //add test data and see if it gets serialized correctly
-        THTeam team =  th.AddTeam();
-        THClue clue = th.AddClue();
-        
-        try
-        {
-            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-            String strData = mapper.writeValueAsString(elem);
-            trace("This is the serialized data: \n" + strData);
-            THElement rebornElem =  mapper.readValue(strData, THElement.class);
-            trace("Type of reborn element: " + rebornElem.getClass());
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    ObjectMapper  mapper =  new ObjectMapper();
+    TreasureHunt th = new TreasureHunt();
+    THElement elem = th;
+    
+    //add test data and see if it gets serialized correctly
+    THTeam team =  th.AddTeam();
+    THClue clue = th.AddClue();
+    
+    try
+    {
+    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+    String strData = mapper.writeValueAsString(elem);
+    trace("This is the serialized data: \n" + strData);
+    THElement rebornElem =  mapper.readValue(strData, THElement.class);
+    trace("Type of reborn element: " + rebornElem.getClass());
     }
+    catch (IOException ex)
+    {
+    Logger.getLogger(TreasureHuntZoneExtension.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }*/
    
     public void CreateTreasureHuntRoom()
     {

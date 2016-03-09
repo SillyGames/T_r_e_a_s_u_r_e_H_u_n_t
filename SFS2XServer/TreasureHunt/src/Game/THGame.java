@@ -22,6 +22,7 @@ public class THGame
     {
         m_SFSExtension.trace(a_object);
     }
+    
     public void TraceW(Object a_object)        
     {
         Trace("WWWWWWWW: " + a_object);

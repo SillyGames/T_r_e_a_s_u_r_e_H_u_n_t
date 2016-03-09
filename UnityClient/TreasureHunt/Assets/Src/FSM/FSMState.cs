@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class FSMState : MonoBehaviour {
 
@@ -45,9 +44,5 @@ public class FSMState : MonoBehaviour {
     {
         Debug.Log("------------- OnExit ------------- : " + State);
     }
-
-    public static implicit operator Type(FSMState v)
-    {
-        throw new NotImplementedException();
-    }
+	
 }

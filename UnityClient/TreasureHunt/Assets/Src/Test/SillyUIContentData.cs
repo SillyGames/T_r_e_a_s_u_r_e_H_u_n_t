@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
-using System.Collections.Generic;
 
 public class SillyUIContentData : MonoBehaviour
 {
@@ -31,12 +30,8 @@ public class SillyUIContentData : MonoBehaviour
     private void OnClickJoinGame()
     {
         Debug.Log(m_gameID);
-       // 
-        GameManager.Instance.GetHuntInfo();
-       
+        FiniteStateMachine.Instance.ChangeState(FSMState.EState.Game);
     }
-
-    
 
     // Update is called once per frame
     void Update () {

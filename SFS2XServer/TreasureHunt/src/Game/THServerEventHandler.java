@@ -79,7 +79,7 @@ public class THServerEventHandler extends BaseServerEventHandler
             sql.setString(1, userDeviceID);
             ResultSet result = sql.executeQuery();
             ISFSArray  array = SFSArray.newFromResultSet(result);
-            String userName = ((ISFSObject)array.get(0).getObject()).getUtfString("displayname");
+            String userRole = ((ISFSObject)array.get(0).getObject()).getUtfString("role");
             if(!result.first())
             {
                 SFSErrorData data = new SFSErrorData(SFSErrorCode.LOGIN_BAD_PASSWORD);
@@ -88,8 +88,8 @@ public class THServerEventHandler extends BaseServerEventHandler
             }
             
             conn.close();     
-            trace("___________________Login sucess with device id: " + userDeviceID + ", and user name: " + userName);
-            session.setProperty(Keys.USER_NAME, userName);
+            trace("___________________Login sucess with device id: " + userDeviceID + ", and user name: " + userRole);
+            session.setProperty(Keys.USER_ROLE, userRole);
         } 
         catch (SQLException e)
         {
@@ -104,12 +104,11 @@ public class THServerEventHandler extends BaseServerEventHandler
     void handleUserJoinZoneEvent(ISFSEvent isfse) throws SFSException 
     {
         User user = (User) isfse.getParameter(SFSEventParam.USER);
-        String deviceID = user.getName();
-        String name = (String) user.getSession().getProperty(Keys.USER_NAME);
+        String role = (String) user.getSession().getProperty(Keys.USER_ROLE);
         //user.setName(name);
-        UserVariable var = new SFSUserVariable(Keys.USERVAR_DEVICEID, deviceID);
+        UserVariable var = new SFSUserVariable(Keys.USER_ROLE, role);
         user.setVariable(var);
-        trace("________||||_____________User joined the jone, Name: " + user.getName() + ", device ID: " + deviceID );
+        trace("________||||_____________User joined the jone, Name: " + user.getName() + ", role: " + role );
         //print and check if you getting the device id correctly
     }
     

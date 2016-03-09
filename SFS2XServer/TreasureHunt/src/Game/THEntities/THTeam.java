@@ -6,6 +6,8 @@
 
 package Game.THEntities;
 
+import Game.Keys;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import java.util.List;
 
 /**
@@ -24,6 +26,15 @@ public class THTeam extends THElement
         m_parent = a_parent;
     }
     
+    protected void SetID(Long a_iID)
+    {
+        SetID(a_iID.toString());
+    }
+    
+    protected int GetIntID()
+    {
+        return Integer.parseInt(GetID());
+    }
     /**
      *
      * @param a_bIncludeGlobal
@@ -39,4 +50,20 @@ public class THTeam extends THElement
         return GetTeamPlayers(false);
     }
     
+    public List<THPlayer> GetTeamClues(boolean a_bIncludeGlobal)
+    {
+        return GetParentHunt().GetTeamClues(a_bIncludeGlobal);
+    }
+    
+    public List<THPlayer> GetTeamClues()
+    {
+        return GetTeamClues(false);
+    }
+    
+    static THTeam CreateFromData(ISFSObject a_data)
+    {
+        THTeam team = new THTeam();
+        team.setName(a_data.getUtfString(Keys.TH_TEAM_NAME));
+        return team;
+    }
 }

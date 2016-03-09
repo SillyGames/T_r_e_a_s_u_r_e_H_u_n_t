@@ -158,18 +158,5 @@ public class FiniteStateMachine : MonoBehaviour {
         return l_state;
     }
 
-    public T GetCurrentState<T>() where T : FSMState
-    {
-       
-        for (int i = 0; i < States.Count; i++)
-        {
-            Type item = States[i].GetType();
-            if (typeof(T) == item)
-            {
-                return (T)States[i];
-            }
-        }
-        return null;
-    }
-
+    
 }

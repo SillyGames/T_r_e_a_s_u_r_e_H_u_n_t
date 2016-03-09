@@ -8,6 +8,7 @@ public class CreateAssetBundles  {
     static void BuildAllAssetBundles()
     {
         BuildPipeline.BuildAssetBundles("Assets/AssetBundles");
+        DeviceInfo.getDiviceID();
     }
 
     [MenuItem("Assets/Get AssetBundle names")]
