@@ -1,33 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class ImageTarget : MonoBehaviour
+namespace TreasureHunt
 {
-    [SerializeField]
-    private string m_imageTargetID;
-    public string ImageTargetID
+    public class ImageTarget : MonoBehaviour
     {
-        get
+        [SerializeField]
+        private string m_imageTargetID;
+        public string ImageTargetID
         {
-            return m_imageTargetID;
+            get
+            {
+                return m_imageTargetID;
+            }
+        }
+        [SerializeField]
+        private string m_currentActiveTargetID;
+        public string CurrentCurrentActiveChildID
+        {
+            get
+            {
+                return m_currentActiveTargetID;
+            }
+        }
+        [SerializeField]
+        private Texture m_texture;
+        // Use this for initialization
+        void Start()
+        {
+            Vuforia.DefaultTrackableEventHandler.Instance.addEventListener(Vuforia.DefaultTrackableEventHandler.TrackableEvent.OnTrackingFound.ToString(), OnTrackingFound);
+        }
+
+        // Update is called once per frame
+        void Update() {
+
+        }
+
+        private void OnTrackingFound(object sender, GameEventArgs args)
+        {
+            Debug.Log("Image Target is Found" + args.EventData.ToString());
+            GameManager.Instance.SendRequestOnTrackbleImageFound(args.EventData.ToString());
         }
     }
-    [SerializeField]
-    private string m_currentActiveTargetID;
-    public string CurrentCurrentActiveChildID
-    {
-        get
-        {
-            return m_currentActiveTargetID;
-        }
-    }
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

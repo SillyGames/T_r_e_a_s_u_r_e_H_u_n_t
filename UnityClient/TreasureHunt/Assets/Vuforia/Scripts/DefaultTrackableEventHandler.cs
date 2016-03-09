@@ -107,7 +107,11 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
+            TreasureHunt.ImageTarget l_tempImageTarget = transform.gameObject.GetComponent<TreasureHunt.ImageTarget>();
             GameBaseEvent l_traceEvent = new GameBaseEvent(TrackableEvent.OnTrackingFound.ToString());
+            GameEventArgs l_arg = new GameEventArgs();
+            l_arg.EventData = l_tempImageTarget.ImageTargetID;
+            l_traceEvent.Args = l_arg;
             dispatchEvent(this, l_traceEvent);
         }
 
@@ -128,9 +132,13 @@ namespace Vuforia
             {
                 component.enabled = false;
             }
-
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
             GameBaseEvent l_traceEvent = new GameBaseEvent(TrackableEvent.OnTrackingLost.ToString());
+            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+            TreasureHunt.ImageTarget l_tempImageTarget =  transform.gameObject.GetComponent<TreasureHunt.ImageTarget>();
+            GameEventArgs l_arg = new GameEventArgs();
+            l_arg.EventData = l_tempImageTarget.ImageTargetID;
+            l_traceEvent.Args = l_arg;
+
             dispatchEvent(this, l_traceEvent);
         }
 

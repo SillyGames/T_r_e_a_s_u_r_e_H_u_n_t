@@ -115,6 +115,8 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
             sfs.Disconnect();
         }
     }
+
+    
     public void Connect()
     {
         if(m_zoneName != string.Empty)
@@ -331,6 +333,14 @@ public class NetworkManager : MonoBehaviour,IEventDispatcher
             Debug.Log(a_infoData.GetUtfString(Keys.ERROR));
         }
     }
+
+    internal void SendRequestOnTrackbleImageFound(string a_targetID)
+    {
+        ISFSObject data = new SFSObject();
+        data.PutUtfString(Keys.IMAGE_TARGET_ID, a_targetID);
+        NetworkManager.Instance.sfs.Send(new ExtensionRequest("game.OnTrackbleImageFound", data));
+    }
+
 
     private void OnConnectionLost(BaseEvent evt)
     {

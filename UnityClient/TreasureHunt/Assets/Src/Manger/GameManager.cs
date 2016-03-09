@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    
+
     public void OnEnterGameState()
     {
         LoadingGameAssets();
@@ -80,5 +82,10 @@ public class GameManager : MonoBehaviour {
     void OnLoadingError(string a_error)
     {
         Debug.Log(a_error);
+    }
+
+    internal void SendRequestOnTrackbleImageFound(string a_targetID)
+    {
+        NetworkManager.Instance.SendRequestOnTrackbleImageFound(a_targetID);
     }
 }

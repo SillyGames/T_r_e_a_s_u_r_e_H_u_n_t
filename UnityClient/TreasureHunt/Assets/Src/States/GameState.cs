@@ -20,7 +20,7 @@ public class GameState : FSMState
         m_eventManager = new EventManager();
         FiniteStateMachine.Instance.LoadLevelChangeState(SceneToLoad, State);
         GameManager.Instance.OnEnterGameState();
-        Vuforia.DefaultTrackableEventHandler.Instance.addEventListener(Vuforia.DefaultTrackableEventHandler.TrackableEvent.OnTrackingFound.ToString(), OnTrackingFound);
+        
     }
 
     
@@ -79,9 +79,6 @@ public class GameState : FSMState
         }
     }
 
-    private void OnTrackingFound(object sender, GameEventArgs args)
-    {
-
-    }
+   
 
 }

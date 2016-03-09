@@ -114,7 +114,8 @@ public class GameRequestsHandler extends baseRequestHandler
             send(Keys.CMD_ASSETS_INFO, data, a_user);
         }
     }
-    public void OnTrackbleEventIsFound()
+    public void OnTrackbleImageFound(ISFSObject a_data, User a_user)
     {
+        trace("OnTrackbleImageFound   OnTrackbleImageFoundOnTrackbleImageFound ");
     }
 }

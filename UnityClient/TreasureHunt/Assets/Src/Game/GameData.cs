@@ -11,8 +11,8 @@ public class GameData : MonoBehaviour {
     public GameObject m_arCamera;
 
     [SerializeField]
-    private List<ImageTarget> m_allTargetImages;
-    public List<ImageTarget> AllImageTargetsImage
+    private List<TreasureHunt.ImageTarget> m_allTargetImages;
+    public List<TreasureHunt.ImageTarget> AllImageTargetsImage
     {
         get 
         {
