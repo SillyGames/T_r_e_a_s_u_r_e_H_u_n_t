@@ -19,6 +19,7 @@ public class Keys
     public static String SUCCESS = "success";
     public static String ERROR = "error";
     public static String ASSETS_INFO = "assetsinfo";
+    public static String USERVAR_DEVICEID = "udid";
     
     //<editor-fold defaultstate="collapsed" desc="reuests related to the game">
     public static String GAME_REQUESTS = "game";

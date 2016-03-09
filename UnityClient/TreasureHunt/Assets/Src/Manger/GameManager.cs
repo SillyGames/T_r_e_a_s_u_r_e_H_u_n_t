@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour {
     }
     private void LoadingGameAssets()
     {
-        for (int i = 0; i < GameManager.Instance.AllAssetsInfoList.Count; i++)
+        for (int i = 0; i < Instance.AllAssetsInfoList.Count; i++)
         {
             AssetsLoader.Instance.LoadAssetsBundle(GameManager.Instance.AllAssetsInfoList[i], OnAssetsLoadingComplete, OnLoadingError);
         }
