@@ -10,11 +10,14 @@ import Game.DBQueries;
 import Game.Keys;
 import com.smartfoxserver.v2.annotations.MultiHandler;
 import com.smartfoxserver.v2.entities.User;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.ExtensionLogLevel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -26,7 +29,7 @@ public class GameRequestsHandler extends baseRequestHandler
 {   
     public void createHunt(ISFSObject a_data, User a_user)
     {
-        String strDeviceID = a_user.getVariable(Keys.USERVAR_DEVICEID).getStringValue();
+        String strDeviceID = a_user.getVariable(Keys.DEVICE_ID).getStringValue();
         String strHuntName = a_data.getUtfString(Keys.HUNT_NAME);
         
         //INSERT INTO `treasurehunt`.`Hunts` (`name`, `owner`, `data`) VALUES ('firstHunr', '7d3124f7377c3079c6c13c15b2d2dfc154867ad2', 'nothing');
@@ -35,7 +38,7 @@ public class GameRequestsHandler extends baseRequestHandler
         Connection conn;
         try {
             //get a connection to the database
-            conn = getParentExtension().getParentZone().getDBManager().getConnection();
+            conn = getConnection();
 
             //This will strip potential SQL injections SELECT username FROM treasurehunt.userlogin where userid ='1001';
             
@@ -72,4 +75,87 @@ public class GameRequestsHandler extends baseRequestHandler
         
     }
     
+    public void listHunts(ISFSObject a_data, User a_user)
+    {
+         trace("get Assest _____________________________ ");
+         ISFSObject data = new SFSObject();
+        Connection conn;
+        try {
+            //get a connection to the database
+            conn = getConnection();
+            PreparedStatement sql = conn.prepareStatement(DBQueries.GET_ALL_HUNTS);
+           
+            trace("here is a listHunt stirng: " + sql.toString());
+           
+            ResultSet result = sql.executeQuery();
+            ISFSArray  array = SFSArray.newFromResultSet(result);
+            if(!result.first())
+            {
+                data.putBool(Keys.SUCCESS, false);
+                data.putUtfString(Keys.ERROR, "Hunt Listing Failed");
+                send(Keys.GAME_HUNT_LIST_HUNTS, data, a_user); 
+            }
+            else
+            {
+              data.putBool(Keys.SUCCESS, true); 
+              data.putSFSArray(Keys.GAME_HUNT_LIST_HUNTS, array);
+              send(Keys.GAME_HUNT_LIST_HUNTS, data, a_user); 
+            }
+            conn.close();     
+            //trace("___________________ Hunt Created with name: " + strHuntName + ", and owner name: " + a_user.getName());
+        } 
+        catch (SQLException e)
+        {
+            trace(ExtensionLogLevel.WARN, " SQL Hunt listing failed: " + e.toString());
+            
+            
+            data.putBool(Keys.SUCCESS, false);
+            data.putUtfString(Keys.ERROR, e.toString());
+            send(Keys.GAME_HUNT_LIST_HUNTS, data, a_user);
+        }
+    }
+    
+    public void getAssetsInfo(ISFSObject a_data, User a_user)
+    {
+        trace("get Assest _____________________________ ");
+         ISFSObject data = new SFSObject();
+        Connection conn;
+        try {
+            //get a connection to the database
+            conn = getConnection();
+            PreparedStatement sql = conn.prepareStatement(DBQueries.GET_ASSETS_INFO);
+           
+            trace("here is a getAssetsInfo stirng: " + sql.toString());
+           
+            ResultSet result = sql.executeQuery();
+            ISFSArray  array = SFSArray.newFromResultSet(result);
+            if(!result.first())
+            {
+                data.putBool(Keys.SUCCESS, false);
+                data.putUtfString(Keys.ERROR, "Assets Info Not Found");
+                send(Keys.CMD_ASSETS_INFO, data, a_user); 
+            }
+            else
+            {
+              data.putBool(Keys.SUCCESS, true); 
+              data.putSFSArray(Keys.ASSETS_INFO, array);
+              send(Keys.CMD_ASSETS_INFO, data, a_user); 
+            }
+            conn.close();     
+            //trace("___________________ Hunt Created with name: " + strHuntName + ", and owner name: " + a_user.getName());
+        } 
+        catch (SQLException e)
+        {
+            trace(ExtensionLogLevel.WARN, " SQL Hunt Creation failed: " + e.toString());
+            
+            
+            data.putBool(Keys.SUCCESS, false);
+            data.putUtfString(Keys.ERROR, e.toString());
+            send(Keys.CMD_ASSETS_INFO, data, a_user);
+        }
+    }
+    
+    public void OnTrackbleEventIsFound()
+    {
+    }
 }
